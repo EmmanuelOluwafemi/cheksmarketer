@@ -11,6 +11,10 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import {TableContainer} from '../Style/TableContainerStyle';
 
+import { AiOutlineUsergroupAdd } from 'react-icons/ai';
+
+import {DashboardHeader} from '../Style/DashboardHeader';
+
 const headCells = [
     {id: 'BuyersId', label: 'Buyers Id'},
     {id: 'time', label: 'Time', disableSorting: true},
@@ -61,6 +65,15 @@ const Subscriber = () => {
 
     return (
         <AdminDashboardLayout>
+            <DashboardHeader>
+                <div className="icon">
+                    <AiOutlineUsergroupAdd className='icon-fill' />
+                </div>
+                <div className="heading">
+                    <h6>Buyer</h6>
+                    <p>Add the buyers info here for proper registration</p>
+                </div>
+            </DashboardHeader>
             <TableContainer>
                 <Toolbar>
                     <TextField
@@ -78,7 +91,7 @@ const Subscriber = () => {
                         className={classes.newButton}
                         variant="outlined"
                         startIcon = {<AddIcon />}
-                    > Add Advert </Button>
+                    > Add Buyer </Button>
                 </Toolbar>
                 <TblContainer>
                     <TblHead />

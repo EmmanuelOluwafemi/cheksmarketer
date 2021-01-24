@@ -20,8 +20,8 @@ const AdminDashboardLayout = (props) => {
             <Sidebar sideBar={sideBar} setSidebar={setSidebar}>
                 <SidebarList>
                     <NavLink exact activeClassName="active" to="/dashboard"><AiFillDashboard className="icons" /> Dashboard</NavLink>
-                    <NavLink activeClassName="active" to="/dashboard/adverts"><AiOutlineUsergroupAdd className="icons" /> Subscriber</NavLink>
-                    <NavLink activeClassName="active" to="/dashboard/compliant"><RiEmotionUnhappyFill className="icons" /> Add Complaint</NavLink>
+                    <NavLink activeClassName="active" to="/dashboard/subscribe"><AiOutlineUsergroupAdd className="icons" /> Subscriber</NavLink>
+                    <NavLink activeClassName="active" to="/dashboard/comliant"><RiEmotionUnhappyFill className="icons" /> Add Complaint</NavLink>
                     <NavLink activeClassName="active" to="/profile"><FaUserAlt className="icons" /> Profile</NavLink>
                 </SidebarList>
             </Sidebar>
