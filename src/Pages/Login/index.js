@@ -1,23 +1,79 @@
-import React from "react";
+import React, {useState} from "react";
 
 import Styled from "styled-components";
 
 import AuthLayout from "../../Layout/AuthLayout";
 
 import { Link, useHistory } from "react-router-dom";
+import Axios from "../../lib/Axios";
+
+import { Snackbar } from "@material-ui/core";
 
 import loginBg from "./loginbtn.jpg";
 
 const Login = () => {
   let history = useHistory();
 
+  // States
+  const [token, setToken] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [emailValue, setEmailValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [showSnackBar, setShowSnackBar] = useState(false);
+
+  // handle err
+  const handleClick = (mes) => {
+    setErrorMessage(mes);
+    setShowSnackBar(true);
+  };
+
+  const handleClose = () => {
+    setShowSnackBar(false);
+  };
+
   const loginHandler = (e) => {
     e.preventDefault();
-    history.replace("/dashboard");
+    if (emailValue && passwordValue) {
+      setSubmitted(true);
+      const data = {
+        email: emailValue,
+        password: passwordValue,
+      };
+      return Axios.post("/login", data)
+        .then((res) => {
+          const token = res.data.token;
+
+          // Save Token
+          setToken(token);
+          localStorage.setItem("adminToken", token);
+          setSubmitted(false);
+
+          // redirects the admin to the dashboard
+          history.replace("/dashboard");
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+          setSubmitted(false);
+          handleClick(err.response.data.message);
+        });
+    } else {
+      handleClick("All fields are required");
+    }
   };
 
   return (
     <AuthLayout>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        open={showSnackBar}
+        onClose={handleClose}
+        message={errorMessage}
+        key={"top center"}
+      />
       <LoginRow className="row">
         <InputSection className="col-md-6 bg-white">
           <form onSubmit={loginHandler}>
@@ -35,7 +91,11 @@ const Login = () => {
             <div className="linkContainer">
               <Link className="linked">Forgot Password?</Link>
             </div>
-            <button type="submit">Log In</button>
+            <button type="submit">{submitted ? (
+                <div className="spinner-border text-dark" role="status"></div>
+              ) : (
+                "Log In"
+              )}</button>
           </form>
         </InputSection>
         <LoginBgStyle className="col-md-6 d-none d-md-block bg-secondary">
