@@ -110,6 +110,11 @@ const HeaderStyle = Styled.div`
             background: #eee;
             cursor: pointer;
             overflow: hidden;
+
+            img {
+                width: 100%;
+                height: auto;
+            }
         }
 
         .notification {
