@@ -8,76 +8,87 @@ import { IoMdCall } from 'react-icons/io';
 
 import AxiosAuth from "../../lib/AxiosAuth";
 import AdminDashboardLayout from '../../Layout/AdminDashboardLayout';
+import { Loader } from '../../Component/loader/Loader';
 
 const Profile = () => {
 
     const [user, setUser] = useState([])
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
         AxiosAuth()
         .get("/user")
         .then((res) => {
             setUser(res.data)
+            setLoading(false)
         })
         .catch((err) => {
             console.log(err);
+            setLoading(false)
         });
     }, [])
 
     return (
-        <AdminDashboardLayout>
-            <ProfileContainer>
-                <h1>Profile</h1>
-                <div className="row">
-                    <ProfileCard className="col-md-5">
-                        <div className="avatar">
-                            <img src={
-                                user.image ? 
-                                    `https://cheks.telneting.com/storage/product_images/${user.image}`:
-                                    'http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png'
-                            } alt="user profile"/>
-                        </div>
-                        <h2>{user.name}</h2>
-                        <p>Premium</p>
-
-                        <ul className="description">
-                            <li><RiUserLocationLine className="icons" />{user.location}</li>
-                            <li><SiMinutemailer className="icons" />{user.email}</li>
-                            <li><IoMdCall className="icons" />{user.telephone}</li>
-                        </ul>
-
-                        <div className="status">Account status: <span>inactive</span> <button>Activate</button></div>
-                    </ProfileCard>
-                    <RightContent className="col-md-7">
-                        <div className="idCard">
-                            <div className="title">
-                                <div className="textTitle">User Id</div>
-                                <button>Copy</button>
+        <>
+        {
+            loading ? 
+            <Loader /> :
+            <AdminDashboardLayout>
+                <ProfileContainer>
+                    <h1>Profile</h1>
+                    <div className="row">
+                        <ProfileCard className="col-md-5">
+                            <div className="avatar">
+                                <img src={
+                                    user.image ? 
+                                        `https://cheks.telneting.com/storage/product_images/${user.image}`:
+                                        'http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png'
+                                } alt="user profile"/>
                             </div>
-                            <h2>CEK4285883022543</h2>
-                            <p>Personal</p>
-                        </div>
+                            <h2>{user.name}</h2>
+                            <p>Premium</p>
 
-                        <div className="ml-0 ml-md-3 otherContainer">
-                            <div className="row">
-                                <Card className="col-md-5 mx-3 mx-md-0">
-                                    <h4>Wallet</h4>
-                                    <h1>#35,000</h1>
-                                    <button>Fund Wallet</button>
-                                </Card>
-                                <Card className="col-md-5 mx-3 mx-md-0 ml-md-3">
-                                    <h4>Points</h4>
-                                    <h1>5,000</h1>
-                                    <button>Get Points</button>
-                                </Card>
+                            <ul className="description">
+                                <li><RiUserLocationLine className="icons" />{user.location}</li>
+                                <li><SiMinutemailer className="icons" />{user.email}</li>
+                                <li><IoMdCall className="icons" />{user.telephone}</li>
+                            </ul>
+
+                            <div className="status">Account status: <span>inactive</span> <button>Activate</button></div>
+                        </ProfileCard>
+                        <RightContent className="col-md-7">
+                            <div className="idCard">
+                                <div className="title">
+                                    <div className="textTitle">User Id</div>
+                                    <button>Copy</button>
+                                </div>
+                                <h2>CEK4285883022543</h2>
+                                <p>Personal</p>
                             </div>
-                        </div>
 
-                        <div className="buttonSpacer"><Link to="/profile/edit">Edit Profile</Link></div>
-                    </RightContent>
-                </div>
-            </ProfileContainer>
-        </AdminDashboardLayout>
+                            <div className="ml-0 ml-md-3 otherContainer">
+                                <div className="row">
+                                    <Card className="col-md-5 mx-3 mx-md-0">
+                                        <h4>Wallet</h4>
+                                        <h1>#35,000</h1>
+                                        <button>Fund Wallet</button>
+                                    </Card>
+                                    <Card className="col-md-5 mx-3 mx-md-0 ml-md-3">
+                                        <h4>Points</h4>
+                                        <h1>5,000</h1>
+                                        <button>Get Points</button>
+                                    </Card>
+                                </div>
+                            </div>
+
+                            <div className="buttonSpacer"><Link to="/profile/edit">Edit Profile</Link></div>
+                        </RightContent>
+                    </div>
+                </ProfileContainer>
+            </AdminDashboardLayout>
+        }
+        </>
     )
 }
 

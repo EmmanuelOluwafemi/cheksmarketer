@@ -5,6 +5,7 @@ import DashboardModal from "../../Component/DashboardModal";
 import AxiosAuth from "../../lib/AxiosAuth";
 import { Snackbar } from "@material-ui/core";
 import AdminDashboardLayout from "../../Layout/AdminDashboardLayout";
+import { Loader } from "../../Component/loader/Loader";
 
 const EditProfile = () => {
   const [openModal, setModal] = useState(false);
@@ -16,15 +17,19 @@ const EditProfile = () => {
   const [showSnackBar, setShowSnackBar] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [user, setUser] = useState("");
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true);
     AxiosAuth()
         .get("/user")
         .then((res) => {
             setUser(res.data)
+            setLoading(false)
         })
         .catch((err) => {
             console.log(err);
+            setLoading(false)
         });
   }, [])
 
@@ -81,6 +86,10 @@ const EditProfile = () => {
   }
 
   return (
+    <>
+    {
+      loading ? 
+        <Loader />:
     <AdminDashboardLayout>
       <DashboardModal openModal={openModal} setModal={setModal}>
         <h1 style={{ fontSize: "1.6rem", fontWeight: "bold" }}>Edit Profile</h1>
@@ -178,6 +187,8 @@ const EditProfile = () => {
         />
       </ProfileContainer>
     </AdminDashboardLayout>
+  }
+  </>
   );
 };
 

@@ -12,6 +12,7 @@ const DashboardHeader = ({ setSidebar }) => {
 
     const [dropdown, setDropdown] = useState(false);
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState([]);
 
     useEffect(() => {
     AxiosAuth()

@@ -9,6 +9,7 @@ import DashboardCardGrid from '../Component/DashboardCardGrid';
 import Styled from 'styled-components';
 
 import AxiosAuth from "../lib/AxiosAuth";
+import { Loader } from '../Component/loader/Loader';
 
 const AdminDashboard = () => {
     
@@ -44,6 +45,9 @@ const AdminDashboard = () => {
         });
     }, [])
     return (
+        <>
+        {loading ?
+        <Loader /> :
         <AdminDashboardLayout>
             <DashboardCardGrid>
                 <GreenCard user={data.total_users} />
@@ -55,6 +59,8 @@ const AdminDashboard = () => {
                 <Activities />
             </ChartGrid>
         </AdminDashboardLayout>
+        }
+        </>
     )
 }
 

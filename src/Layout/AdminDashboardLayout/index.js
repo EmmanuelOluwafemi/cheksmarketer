@@ -6,6 +6,7 @@ import { AiFillDashboard } from 'react-icons/ai';
 import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import { FaUserAlt } from 'react-icons/fa';
 import { RiEmotionUnhappyFill } from 'react-icons/ri';
+import { GrChatOption } from 'react-icons/gr';
 
 import { NavLink } from 'react-router-dom';
 import DashboardHeader from '../../Component/DashboardHeader';
@@ -22,6 +23,7 @@ const AdminDashboardLayout = (props) => {
                     <NavLink exact activeClassName="active" to="/dashboard"><AiFillDashboard className="icons" /> Dashboard</NavLink>
                     <NavLink activeClassName="active" to="/dashboard/subscribe"><AiOutlineUsergroupAdd className="icons" /> Subscriber</NavLink>
                     <NavLink activeClassName="active" to="/dashboard/comliant"><RiEmotionUnhappyFill className="icons" /> Add Complaint</NavLink>
+                    <NavLink activeClassName="active" to="/message"><GrChatOption className="icons" /> Messages</NavLink>
                     <NavLink activeClassName="active" to="/profile"><FaUserAlt className="icons" /> Profile</NavLink>
                 </SidebarList>
             </Sidebar>
