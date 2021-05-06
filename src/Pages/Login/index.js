@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import Styled from "styled-components";
 
@@ -79,7 +79,8 @@ const Login = () => {
 
             <div className="inputGroup">
               <label htmlFor="">Email</label>
-              <input type="email" 
+              <input
+                type="email"
                 name="email"
                 value={emailValue}
                 onChange={(e) => setEmailValue(e.target.value)}
@@ -89,21 +90,23 @@ const Login = () => {
 
             <div className="inputGroup">
               <label>Password</label>
-              <input 
-                type="password" 
+              <input
+                type="password"
                 placeholder="Enter Your Password"
                 value={passwordValue}
                 onChange={(e) => setPasswordValue(e.target.value)}
-               />
+              />
             </div>
             <div className="linkContainer">
               <Link className="linked">Forgot Password?</Link>
             </div>
-            <button type="submit">{submitted ? (
+            <button type="submit">
+              {submitted ? (
                 <div className="spinner-border text-dark" role="status"></div>
               ) : (
                 "Log In"
-              )}</button>
+              )}
+            </button>
           </form>
         </InputSection>
         <LoginBgStyle className="col-md-6 d-none d-md-block bg-secondary">
@@ -123,13 +126,13 @@ const Login = () => {
 
 export default Login;
 
-const LoginRow = Styled.div`
+export const LoginRow = Styled.div`
     width: 100%;
     min-height: 473px;
     margin: 0;
 `;
 
-const LoginBgStyle = Styled.div`
+export const LoginBgStyle = Styled.div`
   position: relative;
   background-image: url(${loginBg});
   background-size: contain;
@@ -153,7 +156,7 @@ const LoginBgStyle = Styled.div`
   }
 `;
 
-const InputSection = Styled.div`
+export const InputSection = Styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
