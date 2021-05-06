@@ -6,6 +6,7 @@ import AuthLayout from "../../Layout/AuthLayout";
 import Axios from "../../lib/Axios";
 
 const ForgetPassword = (props) => {
+  
   // States
   const [errorMessage, setErrorMessage] = useState("");
   const [emailValue, setEmailValue] = useState("");
