@@ -15,7 +15,6 @@ const Login = () => {
   let history = useHistory();
 
   // States
-  const [token, setToken] = useState('');
   const [errorMessage, setErrorMessage] = useState("");
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
@@ -45,7 +44,6 @@ const Login = () => {
           const token = res.data.token;
 
           // Save Token
-          setToken(token);
           localStorage.setItem("adminToken", token);
           setSubmitted(false);
 
@@ -80,13 +78,23 @@ const Login = () => {
             <h1>Login</h1>
 
             <div className="inputGroup">
-              <label htmlFor="">Username</label>
-              <input type="text" placeholder="Enter Your Username" />
+              <label htmlFor="">Email</label>
+              <input type="email" 
+                name="email"
+                value={emailValue}
+                onChange={(e) => setEmailValue(e.target.value)}
+                placeholder="Enter Your Email"
+              />
             </div>
 
             <div className="inputGroup">
-              <label htmlFor="">Password</label>
-              <input type="password" placeholder="Enter Your Password" />
+              <label>Password</label>
+              <input 
+                type="password" 
+                placeholder="Enter Your Password"
+                value={passwordValue}
+                onChange={(e) => setPasswordValue(e.target.value)}
+               />
             </div>
             <div className="linkContainer">
               <Link className="linked">Forgot Password?</Link>

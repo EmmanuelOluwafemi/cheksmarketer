@@ -11,6 +11,7 @@ import Login from "./Pages/Login";
 import Subscriber from "./Pages/Subscriber";
 import Profile from "./Pages/Profile";
 import EditProfile from "./Pages/Profile/EditProfile";
+import AddCompliant from "./Pages/AddCompliant";
 
 function App() {
   return (
@@ -26,9 +27,9 @@ function App() {
         <Route exact path="/dashboard/subscribe">
           <Subscriber />
         </Route>
-        {/* <Route exact path="/dashboard/comliant">
-          <Compliant />
-        </Route> */}
+        <Route exact path="/dashboard/comliant">
+          <AddCompliant />
+        </Route>
         <Route exact path="/profile">
           <Profile />
         </Route>

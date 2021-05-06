@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import AdminDashboardLayout from '../Layout/AdminDashboardLayout';
 import useTable from '../Component/Table/UseTable';
-import data from './Data/advert';
+// import data from './Data/advert';
 import { TableBody, TableRow, TableCell, Toolbar, TextField, InputAdornment, Button } from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import { Search } from '@material-ui/icons';
@@ -12,11 +12,19 @@ import CloseIcon from '@material-ui/icons/Close';
 
 import {TableContainer} from '../Style/TableContainerStyle';
 
+import { AiOutlineUsergroupAdd } from 'react-icons/ai';
+
+import {DashboardHeader} from '../Style/DashboardHeader';
+
+import AxiosAuth from "../lib/AxiosAuth";
+import Empty from '../Component/Empty';
+
 const headCells = [
     {id: 'BuyersId', label: 'Buyers Id'},
-    {id: 'time', label: 'Time', disableSorting: true},
-    {id: 'date', label: 'Date', disableSorting: true},
-    {id: 'status', label: 'STATUS', disableSorting: true},
+    {id: 'name', label: 'Name'},
+    {id: 'email', label: 'Email', disableSorting: true},
+    {id: 'location', label: 'Location', disableSorting: true},
+    {id: 'telephone', label: 'Telephone', disableSorting: true},
     {id: 'Action', label: 'Action', disableSorting: true},
 ]
 
@@ -41,12 +49,30 @@ const Subscriber = () => {
     const classes = useStyles();
     const [filterFn, setFilterFn] = useState({fn:items => { return items; }});
 
+    const [subscriber, setSubscriber] = useState([]);
+    const [loading, setLoading] = useState([]);
+
+    useEffect(() => {
+        // Get Subscriber
+        AxiosAuth()
+        .get("/marketer/check-referrals")
+        .then((res) => {
+            console.log(res.data)
+            setSubscriber(res.data)
+            setLoading(false)
+        })
+        .catch((err) => {
+            console.log(err);
+            setLoading(false)
+        });
+    }, [])
+
     const {
         TblContainer,
         TblHead,
         TblPagination,
         recordAfterPagingAndSorting
-    } = useTable(data, headCells, filterFn);
+    } = useTable(subscriber, headCells, filterFn);
 
     const handleSearch = e => {
         let target = e.target;
@@ -62,6 +88,17 @@ const Subscriber = () => {
 
     return (
         <AdminDashboardLayout>
+            <DashboardHeader>
+                <div className="icon">
+                    <AiOutlineUsergroupAdd className='icon-fill' />
+                </div>
+                <div className="heading">
+                    <h6>Buyer</h6>
+                    <p>Add the buyers info here for proper registration</p>
+                </div>
+            </DashboardHeader>
+
+            {subscriber.length > 0 ?
             <TableContainer>
                 <Toolbar>
                     <TextField
@@ -79,7 +116,7 @@ const Subscriber = () => {
                         className={classes.newButton}
                         variant="outlined"
                         startIcon = {<AddIcon />}
-                    > Add Advert </Button>
+                    > Add Buyer </Button>
                 </Toolbar>
                 <TblContainer>
                     <TblHead />
@@ -87,10 +124,11 @@ const Subscriber = () => {
                         {
                             recordAfterPagingAndSorting().map(item => (
                                 <TableRow key={item.id}>
-                                    <TableCell>{item.BuyersId}</TableCell>
-                                    <TableCell>{item.time}</TableCell>
-                                    <TableCell>{item.date}</TableCell>
-                                    <TableCell>{item.status}</TableCell>
+                                    <TableCell>{item.cheks_id}</TableCell>
+                                    <TableCell>{item.name}</TableCell>
+                                    <TableCell>{item.email}</TableCell>
+                                    <TableCell>{item.location}</TableCell>
+                                    <TableCell>{item.telephone}</TableCell>
                                     <TableCell>
                                         <ActionButton
                                             color="#84e35d">
@@ -107,7 +145,9 @@ const Subscriber = () => {
                     </TableBody>
                 </TblContainer>
                 <TblPagination />
-            </TableContainer>
+            </TableContainer> :
+            <Empty />
+            }
         </AdminDashboardLayout>
     )
 }

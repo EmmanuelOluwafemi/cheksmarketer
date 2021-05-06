@@ -1,32 +1,49 @@
 import React from 'react';
 import Styled from 'styled-components';
 
-export const GreenCard = () => {
+export const GreenCard = ({user}) => {
     return (
         <CardStyle className="green">
-            <h5>Adverts Posted</h5>
-            <h3>3320</h3>
+            <h5>Total User</h5>
+            <h3>{user}</h3>
         </CardStyle>
     )
 }
 
-export const PurpleCard = () => {
+export const PurpleCard = ({seller}) => {
     return (
         <CardStyle className="purple">
-            <h5>Buyer Viewed</h5>
-            <h3>54033</h3>
+            <h5>Total Subscriber</h5>
+            <h3>{seller}</h3>
         </CardStyle>
     )
 }
 
-export const RedCard = () => {
+export const RedCard = ({rate}) => {
     return (
         <CardStyle className="red">
-            <h5>Adverts Verified</h5>
-            <h3>18433</h3>
+            <h5>Conversion Rate</h5>
+            <h3>{rate}</h3>
         </CardStyle>
     )
 }
+
+export const Activities = ({data}) => {
+    // data.map(item => {
+    //   console.log(item)
+    // })
+      console.log(data)
+  return (
+    <ActivitiesCard>
+      <h5>Notifications</h5>
+      <hr />
+      <div>
+        <p>hi</p>
+        <h6>From: </h6>
+      </div>
+    </ActivitiesCard>
+  );
+};
 
 const CardStyle = Styled.div`
     width: 100%;
@@ -97,4 +114,40 @@ const CardStyle = Styled.div`
             font-size: .8rem;
         }
     }
+`;
+
+const ActivitiesCard = Styled.div`
+    width: 37%;
+    margin-left: 2rem;
+    background: #fff;
+    filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.25));
+    padding: 1rem;
+    
+    @media (max-width: 959px) {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    h5 {
+        margin: 1rem 0;
+    }
+
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 0.9rem;
+        box-sizing: border-box;
+        cursor: pointer;
+
+        &:hover{
+            background: #e3e3e3;
+        }
+    }
+
 `;

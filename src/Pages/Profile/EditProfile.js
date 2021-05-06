@@ -1,22 +1,84 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Styled from "styled-components";
 import DashboardModal from "../../Component/DashboardModal";
-import avatar from './avatar.png';
-import AdminDashboardLayout from '../../Layout/AdminDashboardLayout/index.js';
+import AxiosAuth from "../../lib/AxiosAuth";
+import { Snackbar } from "@material-ui/core";
+import AdminDashboardLayout from "../../Layout/AdminDashboardLayout";
 
 const EditProfile = () => {
   const [openModal, setModal] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+  const [telephone, setPhone] = useState("");
+  const [image, setImage] = useState("");
+  const [showSnackBar, setShowSnackBar] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    AxiosAuth()
+        .get("/user")
+        .then((res) => {
+            setUser(res.data)
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+  }, [])
+
+  //   reset State
+  const reset = () => {
+    setSubmitted();
+    setName("");
+    setLocation("");
+    setPhone("");
+    setImage("");
+  };
+
+  // handle err
+  const handleClick = (mes) => {
+    setErrorMessage(mes);
+    setShowSnackBar(true);
+    setSubmitted(false);
+  };
+
+  const handleClose = () => {
+    setShowSnackBar(false);
+  };
 
   const handleOnclick = (e) => {
     e.preventDefault();
+
     setModal(true);
   };
 
   const handleCancel = (e) => {
     e.preventDefault();
+
     setModal(false);
   };
+
+  const handleSubmit = () => {
+    const data = {
+      name,
+      telephone,
+      location,
+      image
+    };
+    return AxiosAuth().put("/account/update-profile", data)
+      .then((res) => {
+        handleClick(
+          `Successfully Updated ${name} Account`
+        );
+        reset();
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+        handleClick(err.response.data.message);
+      });
+  }
 
   return (
     <AdminDashboardLayout>
@@ -34,7 +96,11 @@ const EditProfile = () => {
           details.
         </p>
         <Buttons>
-          <button className="active">Edit Profile</button>
+          <button onClick={handleSubmit} className="active">{submitted ? (
+                <div className="spinner-border text-dark" role="status"></div>
+              ) : (
+                "Edit Profile"
+              )}</button>
           <button onClick={handleCancel} className="outlineError">
             Cancel
           </button>
@@ -45,13 +111,20 @@ const EditProfile = () => {
         <div className="row">
           <ProfileCard className="col-md-5">
             <div className="avatar">
-              <img src={avatar} alt="user profile" />
-              <input type="file" id="avatar" hidden />
+              <img src={
+                  user.image ? 
+                      `https://cheks.telneting.com/storage/product_images/${user.image}`:
+                      'http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png'
+              } alt="user profile"/>
+              <input name='image' type="file" id="avatar" hidden />
               <label htmlFor="avatar">+</label>
             </div>
-            <h2>Bessie Cooper</h2>
+            <h2>{user.name}</h2>
             <h6>CEK4285883022543</h6>
-            <p>Admin</p>      
+            <p>Premium</p>
+            <div className="status">
+              Account status: <span>inactive</span> <button>Activate</button>
+            </div>
           </ProfileCard>
 
           <FormStyle className="col-md-7">
@@ -63,6 +136,7 @@ const EditProfile = () => {
                 name="name"
                 type="text"
                 placeholder="Enter Fullname"
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="inputGroup">
@@ -72,33 +146,17 @@ const EditProfile = () => {
                 name="phoneNumber"
                 type="text"
                 placeholder="Enter Phone Number"
+                onChange={(e) => setPhone(e.target.value)}
               />
             </div>
             <div className="inputGroup">
-              <label htmlFor="name">Country</label>
+              <label htmlFor="name">Location</label>
               <input
-                id="country"
-                name="country"
+                id="location"
+                name="location"
                 type="text"
-                placeholder="Enter Country"
-              />
-            </div>
-            <div className="inputGroup">
-              <label htmlFor="name">State</label>
-              <input
-                id="state"
-                name="state"
-                type="text"
-                placeholder="Enter State"
-              />
-            </div>
-            <div className="inputGroup">
-              <label htmlFor="name">Local Governement</label>
-              <input
-                id="local"
-                name="local"
-                type="text"
-                placeholder="Enter Local Governement"
+                placeholder="Enter Location"
+                onChange={(e) => setLocation(e.target.value)}
               />
             </div>
 
@@ -107,6 +165,17 @@ const EditProfile = () => {
             </div>
           </FormStyle>
         </div>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          open={showSnackBar}
+          onClose={handleClose}
+          message={errorMessage}
+          key={"top center"}
+        />
       </ProfileContainer>
     </AdminDashboardLayout>
   );
@@ -146,7 +215,7 @@ const Buttons = Styled.div`
     }
 `;
 
-const ProfileContainer = Styled.div`
+const ProfileContainer = Styled.form`
     width: 100%;
     min-height: 700px;
 
@@ -178,6 +247,8 @@ const ProfileCard = Styled.div`
         
         img {
             position: absolute;
+            width: 110%;
+            height: auto;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -243,7 +314,7 @@ const ProfileCard = Styled.div`
     }
 `;
 
-const FormStyle = Styled.form`
+const FormStyle = Styled.div`
     background: #fff;
     box-sizing: border-box;
     border-left: 1px solid rgba(0, 0, 0, .3);

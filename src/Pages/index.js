@@ -1,26 +1,58 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import AdminDashboardLayout from '../Layout/AdminDashboardLayout';
 
-import Alert from '../Component/Alert';
-import { GreenCard, PurpleCard, RedCard } from '../Component/DashboardCard';
-// import Chart from '../../../Components/Chart';
+import { Activities,  GreenCard, PurpleCard, RedCard } from '../Component/DashboardCard';
+import Chart from '../Component/Chart';
 import DashboardCardGrid from '../Component/DashboardCardGrid';
 
 import Styled from 'styled-components';
 
+import AxiosAuth from "../lib/AxiosAuth";
+
 const AdminDashboard = () => {
+    
+    const [data, setData] = useState([]);
+    const [graph, setGraph] = useState([])
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true)
+
+        // Get Analytics Statistics
+        AxiosAuth()
+        .get("/marketer/analytics-stats")
+        .then((res) => {
+            setData(res.data.data)
+            setLoading(false)
+        })
+        .catch((err) => {
+            console.log(err);
+            setLoading(false)
+        });
+
+        // Get Analytics Graph
+        AxiosAuth()
+        .get("/marketer/analytics-graph")
+        .then((res) => {
+            setGraph(res.data.data)
+            setLoading(false)
+        })
+        .catch((err) => {
+            console.log(err);
+            setLoading(false)
+        });
+    }, [])
     return (
         <AdminDashboardLayout>
-            <Alert message="Note: your Account will be deactivated after 24hours of registration without payment." />
             <DashboardCardGrid>
-                <GreenCard />
-                <PurpleCard />
-                <RedCard />
+                <GreenCard user={data.total_users} />
+                <PurpleCard seller={data.total_sellers_registers} />
+                <RedCard rate={data.conversion_rate} />
             </DashboardCardGrid>
             <ChartGrid>
-                {/* {/* <Chart />    */}
-                {/* <Chart /> */}
+                <Chart newData={graph} />
+                <Activities />
             </ChartGrid>
         </AdminDashboardLayout>
     )

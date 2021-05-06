@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styled from 'styled-components';
 
 import { IoIosNotifications } from 'react-icons/io';
@@ -6,9 +6,24 @@ import { RiMenu4Line } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import logo from './images/logo.svg';
 
+import AxiosAuth from "../../lib/AxiosAuth";
+
 const DashboardHeader = ({ setSidebar }) => {
 
     const [dropdown, setDropdown] = useState(false);
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+    AxiosAuth()
+      .get(`/user`)
+      .then((res) => {
+        console.log(res.data);
+        setData(res.data);
+      })
+      .catch((err) => {
+          console.log(err);
+      });
+    }, [])
 
     const handleSidebar = () => {
         setSidebar(true);
@@ -34,7 +49,11 @@ const DashboardHeader = ({ setSidebar }) => {
                     </ul>
                 </div>
                 <div className="avatar">
-                    {/* <img src="" alt=""/> */}
+                    <img src={
+                        data.image ? 
+                            `https://cheks.telneting.com/storage/product_images/${data.image}`:
+                            'http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png'
+                    } alt={data.name}/>
                 </div>
             </div>
 

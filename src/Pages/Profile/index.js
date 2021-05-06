@@ -1,74 +1,85 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Styled from "styled-components";
+import React, {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
+import Styled from 'styled-components';
 
-import { RiUserLocationLine } from "react-icons/ri";
-import { SiMinutemailer } from "react-icons/si";
-import { IoMdCall } from "react-icons/io";
+import { RiUserLocationLine } from 'react-icons/ri';
+import { SiMinutemailer } from 'react-icons/si';
+import { IoMdCall } from 'react-icons/io';
 
-import avatar from "./avatar.png";
-import AdminDashboardLayout from "../../Layout/AdminDashboardLayout/index.js";
+import AxiosAuth from "../../lib/AxiosAuth";
+import AdminDashboardLayout from '../../Layout/AdminDashboardLayout';
 
 const Profile = () => {
-  return (
-    <AdminDashboardLayout>
-      <ProfileContainer>
-        <h1>Profile</h1>
-        <div className="row">
-          <ProfileCard className="col-md-5">
-            <div className="avatar">
-              <img src={avatar} alt="user profile" />
-            </div>
-            <h2>Bessie Cooper</h2>
-            <p>Premium</p>
 
-            <ul className="description">
-              <li>
-                <RiUserLocationLine className="icons" /> lekki, Lagos, Nigeria
-              </li>
-              <li>
-                <SiMinutemailer className="icons" /> BessieCooper@gmail.com
-              </li>
-              <li>
-                <IoMdCall className="icons" /> 0801 - 234 - 5678
-              </li>
-            </ul>
-            
-          </ProfileCard>
-          <RightContent className="col-md-7">
-            <div className="idCard">
-              <div className="title">
-                <div className="textTitle">User Id</div>
-                <button>Copy</button>
-              </div>
-              <h2>CEK4285883022543</h2>
-              <p>Admin</p>
-            </div>
+    const [user, setUser] = useState([])
 
-            <div className="ml-0 ml-md-3 otherContainer">
-              <div className="row">
-                <Card className="col-md-5 mx-3 mx-md-0">
-                  <h4>Complaints Resolved</h4>
-                  <h1>5,000</h1>
-                  <button>View</button>
-                </Card>
-                <Card className="col-md-5 mx-3 mx-md-0 ml-md-3">
-                  <h4>Points</h4>
-                  <h1>5,000</h1>
-                  <button>Get Points</button>
-                </Card>
-              </div>
-            </div>
+    useEffect(() => {
+        AxiosAuth()
+        .get("/user")
+        .then((res) => {
+            setUser(res.data)
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }, [])
 
-            <div className="buttonSpacer">
-              <Link to="/profile/edit">Edit Profile</Link>
-            </div>
-          </RightContent>
-        </div>
-      </ProfileContainer>
-    </AdminDashboardLayout>
-  );
-};
+    return (
+        <AdminDashboardLayout>
+            <ProfileContainer>
+                <h1>Profile</h1>
+                <div className="row">
+                    <ProfileCard className="col-md-5">
+                        <div className="avatar">
+                            <img src={
+                                user.image ? 
+                                    `https://cheks.telneting.com/storage/product_images/${user.image}`:
+                                    'http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png'
+                            } alt="user profile"/>
+                        </div>
+                        <h2>{user.name}</h2>
+                        <p>Premium</p>
+
+                        <ul className="description">
+                            <li><RiUserLocationLine className="icons" />{user.location}</li>
+                            <li><SiMinutemailer className="icons" />{user.email}</li>
+                            <li><IoMdCall className="icons" />{user.telephone}</li>
+                        </ul>
+
+                        <div className="status">Account status: <span>inactive</span> <button>Activate</button></div>
+                    </ProfileCard>
+                    <RightContent className="col-md-7">
+                        <div className="idCard">
+                            <div className="title">
+                                <div className="textTitle">User Id</div>
+                                <button>Copy</button>
+                            </div>
+                            <h2>CEK4285883022543</h2>
+                            <p>Personal</p>
+                        </div>
+
+                        <div className="ml-0 ml-md-3 otherContainer">
+                            <div className="row">
+                                <Card className="col-md-5 mx-3 mx-md-0">
+                                    <h4>Wallet</h4>
+                                    <h1>#35,000</h1>
+                                    <button>Fund Wallet</button>
+                                </Card>
+                                <Card className="col-md-5 mx-3 mx-md-0 ml-md-3">
+                                    <h4>Points</h4>
+                                    <h1>5,000</h1>
+                                    <button>Get Points</button>
+                                </Card>
+                            </div>
+                        </div>
+
+                        <div className="buttonSpacer"><Link to="/profile/edit">Edit Profile</Link></div>
+                    </RightContent>
+                </div>
+            </ProfileContainer>
+        </AdminDashboardLayout>
+    )
+}
 
 export default Profile;
 
@@ -105,6 +116,8 @@ const ProfileCard = Styled.div`
 
         img {
             position: absolute;
+            width: 110%;
+            height: auto;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
