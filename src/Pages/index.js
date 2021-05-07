@@ -70,7 +70,8 @@ const ChartGrid = Styled.div`
     width: 100%;
     height: 400px;
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 70% 20%;
     grid-column-gap: 16px; 
+    margin-top: 2rem;
 `;
 

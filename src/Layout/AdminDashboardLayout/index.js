@@ -7,14 +7,24 @@ import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import { FaUserAlt } from 'react-icons/fa';
 import { RiEmotionUnhappyFill } from 'react-icons/ri';
 import { GrChatOption } from 'react-icons/gr';
+import { BiLogOut } from "react-icons/bi";
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import DashboardHeader from '../../Component/DashboardHeader';
 
 
 const AdminDashboardLayout = (props) => {
 
     const [sideBar, setSidebar] = useState(false);
+    let history = useHistory();
+
+    const handleLogout = () => {
+        if(localStorage.getItem("cheToken")) {
+            localStorage.removeItem("cheToken");
+
+            history.push('/login');
+        }
+    }
 
     return (
         <DashboardLayoutStyle>
@@ -25,6 +35,9 @@ const AdminDashboardLayout = (props) => {
                     <NavLink activeClassName="active" to="/dashboard/comliant"><RiEmotionUnhappyFill className="icons" /> Add Complaint</NavLink>
                     <NavLink activeClassName="active" to="/message"><GrChatOption className="icons" /> Messages</NavLink>
                     <NavLink activeClassName="active" to="/profile"><FaUserAlt className="icons" /> Profile</NavLink>
+                    <div onClick={handleLogout} className="log">
+                        <BiLogOut className="icons" /> Logout
+                    </div>
                 </SidebarList>
             </Sidebar>
             <div className="contentContainer">
@@ -62,7 +75,7 @@ const SidebarList = Styled.ul`
     margin: 0;
     padding: 0;
 
-    a {
+    a, .log {
         width: 100%;
         height: 48px;
         display: flex;

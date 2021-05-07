@@ -117,7 +117,7 @@ const CardStyle = Styled.div`
 `;
 
 const ActivitiesCard = Styled.div`
-    width: 37%;
+    width: 100%;
     margin-left: 2rem;
     background: #fff;
     filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.25));
