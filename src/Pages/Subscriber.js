@@ -51,7 +51,7 @@ const Subscriber = () => {
     const [filterFn, setFilterFn] = useState({fn:items => { return items; }});
 
     const [subscriber, setSubscriber] = useState([]);
-    const [loading, setLoading] = useState([]);
+    // const [loading, setLoading] = useState([]);
 
     useEffect(() => {
         setLoading(true)
@@ -61,11 +61,11 @@ const Subscriber = () => {
         .then((res) => {
             console.log(res.data)
             setSubscriber(res.data)
-            setLoading(false)
+            // setLoading(false)
         })
         .catch((err) => {
             console.log(err);
-            setLoading(false)
+            // setLoading(false)
         });
     }, [])
 
