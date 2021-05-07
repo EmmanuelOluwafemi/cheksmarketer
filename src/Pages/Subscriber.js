@@ -18,6 +18,7 @@ import {DashboardHeader} from '../Style/DashboardHeader';
 
 import AxiosAuth from "../lib/AxiosAuth";
 import Empty from '../Component/Empty';
+import Loader from '../Component/loader/Loader';
 
 const headCells = [
     {id: 'BuyersId', label: 'Buyers Id'},
@@ -53,6 +54,7 @@ const Subscriber = () => {
     const [loading, setLoading] = useState([]);
 
     useEffect(() => {
+        setLoading(true)
         // Get Subscriber
         AxiosAuth()
         .get("/marketer/check-referrals")
@@ -87,6 +89,11 @@ const Subscriber = () => {
     }
 
     return (
+        <>
+        {
+            loading ?
+        <Loader />
+            :
         <AdminDashboardLayout>
             <DashboardHeader>
                 <div className="icon">
@@ -149,6 +156,8 @@ const Subscriber = () => {
             <Empty />
             }
         </AdminDashboardLayout>
+        }
+        </>
     )
 }
 
