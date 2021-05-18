@@ -54,8 +54,6 @@ const Profile = () => {
                                 <li><SiMinutemailer className="icons" />{user.email}</li>
                                 <li><IoMdCall className="icons" />{user.telephone}</li>
                             </ul>
-
-                            <div className="status">Account status: <span>inactive</span> <button>Activate</button></div>
                         </ProfileCard>
                         <RightContent className="col-md-7">
                             <div className="idCard">
@@ -63,7 +61,7 @@ const Profile = () => {
                                     <div className="textTitle">User Id</div>
                                     <button>Copy</button>
                                 </div>
-                                <h2>CEK4285883022543</h2>
+                                <h2>{user.role_id}</h2>
                                 <p>Personal</p>
                             </div>
 

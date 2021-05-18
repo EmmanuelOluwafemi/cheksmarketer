@@ -38,7 +38,7 @@ const DashboardHeader = ({ setSidebar }) => {
             <RiMenu4Line onClick={handleSidebar} className="mobileToggler" />
             <Link to="/" className="logo"><img src={logo} alt="cheksng logo"/></Link>
             <div className="userInfo">
-                <div onClick={handleDropdown} className="notification">
+                {/* <div onClick={handleDropdown} className="notification">
                     <IoIosNotifications className="icons" />
                     <div className="postActive"></div>
                     <ul className={dropdown ? "dropdown show" : 'dropdown'}>
@@ -47,7 +47,7 @@ const DashboardHeader = ({ setSidebar }) => {
                         <li>Recent Activities</li>
                         <li>Recent Activities</li>
                     </ul>
-                </div>
+                </div> */}
                 <div className="avatar">
                     <img src={
                         data.image ? 

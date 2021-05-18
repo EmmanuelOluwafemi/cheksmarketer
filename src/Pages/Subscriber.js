@@ -19,9 +19,11 @@ import {DashboardHeader} from '../Style/DashboardHeader';
 import AxiosAuth from "../lib/AxiosAuth";
 import Empty from '../Component/Empty';
 import {Loader} from '../Component/loader/Loader';
+import CreateUser from '../CreateUser/CreateUser';
+import DeleteUser from '../Component/DeleteUser/DeleteUser';
 
 const headCells = [
-    {id: 'BuyersId', label: 'Buyers Id'},
+    {id: 'BuyersId', label: 'Subscriber Id'},
     {id: 'name', label: 'Name'},
     {id: 'email', label: 'Email', disableSorting: true},
     {id: 'location', label: 'Location', disableSorting: true},
@@ -53,14 +55,22 @@ const Subscriber = () => {
     const [subscriber, setSubscriber] = useState([]);
     const [loading, setLoading] = useState([]);
 
+    const [openModal, setModal] = useState(false);
+    const [openDel, setDel] = useState(false);
+    const [getId] = useState("");
+
+    const handleModal = () => {
+        setModal(true);
+    };
+
     useEffect(() => {
         setLoading(true)
         // Get Subscriber
         AxiosAuth()
         .get("/marketer/check-referrals")
         .then((res) => {
-            console.log(res.data)
-            setSubscriber(res.data)
+            console.log(res.data.data)
+            setSubscriber(res.data.data)
             setLoading(false)
         })
         .catch((err) => {
@@ -95,6 +105,20 @@ const Subscriber = () => {
         <Loader />
             :
         <AdminDashboardLayout>
+            <CreateUser
+                title="Add Subscriber"
+                userType="seller"
+                openModal={openModal}
+                setModal={setModal}
+            />
+
+            <DeleteUser
+                userRole="seller"
+                userId={getId}
+                setModal={setDel}
+                openModal={openDel}
+            />
+
             <DashboardHeader>
                 <div className="icon">
                     <AiOutlineUsergroupAdd className='icon-fill' />
@@ -123,6 +147,7 @@ const Subscriber = () => {
                         className={classes.newButton}
                         variant="outlined"
                         startIcon = {<AddIcon />}
+                        onClick={handleModal}
                     > Add Buyer </Button>
                 </Toolbar>
                 <TblContainer>
@@ -131,7 +156,7 @@ const Subscriber = () => {
                         {
                             recordAfterPagingAndSorting().map(item => (
                                 <TableRow key={item.id}>
-                                    <TableCell>{item.cheks_id}</TableCell>
+                                    <TableCell>{item.role_id}</TableCell>
                                     <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.email}</TableCell>
                                     <TableCell>{item.location}</TableCell>
@@ -153,7 +178,7 @@ const Subscriber = () => {
                 </TblContainer>
                 <TblPagination />
             </TableContainer> :
-            <Empty />
+            <Empty func={handleModal} />
             }
         </AdminDashboardLayout>
         }

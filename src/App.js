@@ -14,6 +14,7 @@ import EditProfile from "./Pages/Profile/EditProfile";
 import AddCompliant from "./Pages/AddCompliant";
 import Messages from "./Pages/Messages";
 import ForgetPassword from "./Pages/ForgetPassword";
+import Register from "./Pages/Registration";
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
         <Redirect exact from="/" to="/login" />
         <Route exact path="/login">
           <Login />
+        </Route>
+        <Route exact path="/register">
+          <Register />
         </Route>
         <Route exact path="/forget_password">
           <ForgetPassword />

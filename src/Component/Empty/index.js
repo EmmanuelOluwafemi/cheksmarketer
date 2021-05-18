@@ -2,12 +2,12 @@ import React from 'react';
 import Styled from 'styled-components';
 import EmptyIcon from './empty.svg';
 
-const Empty = () => {
+const Empty = ({ func }) => {
     return (
         <EmptyStyle>
             <img src={EmptyIcon} alt="empty" />
             <h3>No Subscriber added yet</h3>
-            <button>Add Subscriber</button>
+            <button onClick={func}>Add Subscriber</button>
         </EmptyStyle>
     )
 }

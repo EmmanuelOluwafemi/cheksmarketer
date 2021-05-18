@@ -20,6 +20,7 @@ const Login = () => {
   const [passwordValue, setPasswordValue] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [showSnackBar, setShowSnackBar] = useState(false);
+  const [error, setError] = useState([]);
 
   // handle err
   const handleClick = (mes) => {
@@ -51,7 +52,8 @@ const Login = () => {
           history.replace("/dashboard");
         })
         .catch((err) => {
-          console.log(err.response.data.message);
+          console.log(err.response.data);
+          setError(err.response.data.errors);
           setSubmitted(false);
           handleClick(err.response.data.message);
         });
@@ -86,6 +88,7 @@ const Login = () => {
                 onChange={(e) => setEmailValue(e.target.value)}
                 placeholder="Enter Your Email"
               />
+              {error.email && <p className="error">{error.email}</p>}
             </div>
 
             <div className="inputGroup">
@@ -95,7 +98,8 @@ const Login = () => {
                 placeholder="Enter Your Password"
                 value={passwordValue}
                 onChange={(e) => setPasswordValue(e.target.value)}
-              />
+                />
+                {error.email && <p className="error">{error.email}</p>}
             </div>
             <div className="linkContainer">
               <Link className="linked">Forgot Password?</Link>
@@ -117,6 +121,9 @@ const Login = () => {
               natoque morbi. At tempus volutpat ultrices morbi nisl, semper
               sodales convallis dolor. Est morbi urna tellus..
             </p>
+            <Link to="/register">
+              <button>Sign Up</button>
+            </Link>
           </div>
         </LoginBgStyle>
       </LoginRow>
@@ -152,6 +159,22 @@ export const LoginBgStyle = Styled.div`
       opacity: .8;
       margin-bottom: 24px;
       line-height: 1.4;
+    }
+
+    button {
+      border: 2px solid #fff;
+      background: none;
+      color: #fff;
+      width: 150px;
+      height: 50px;
+      font-size: 1rem;
+      transition: all ease-in 0.4s;
+      &:hover {
+        background: #0175b1;
+      }
+      &:focus {
+        outline: none;
+      }
     }
   }
 `;
@@ -189,6 +212,11 @@ export const InputSection = Styled.div`
                 outline: none;
                 padding: 8px 12px;
                 font-size: .8rem;
+            }
+
+            .error {
+              font-size: .8rem;
+              color: red;
             }
 
         }

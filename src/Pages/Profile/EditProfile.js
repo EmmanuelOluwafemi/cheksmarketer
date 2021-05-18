@@ -129,11 +129,8 @@ const EditProfile = () => {
               <label htmlFor="avatar">+</label>
             </div>
             <h2>{user.name}</h2>
-            <h6>CEK4285883022543</h6>
+            <h6>{user.role_id}</h6>
             <p>Premium</p>
-            <div className="status">
-              Account status: <span>inactive</span> <button>Activate</button>
-            </div>
           </ProfileCard>
 
           <FormStyle className="col-md-7">
