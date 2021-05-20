@@ -13,7 +13,7 @@ const AddCompliant = () => {
 
     const [submitted, setSubmitted] = useState(false);
     const [title, setTitle] = useState("");
-    const [complaint, setComplaint] = useState("");
+    const [body, setBody] = useState("");
     const [department, setDepartment] = useState("");
     const [priority, setPriority] = useState("");
     const [showSnackBar, setShowSnackBar] = useState(false);
@@ -23,7 +23,7 @@ const AddCompliant = () => {
     const reset = () => {
         setSubmitted();
         setTitle("");
-        setComplaint("");
+        setBody("");
         setPriority("");
         setDepartment("");
     };
@@ -42,16 +42,16 @@ const AddCompliant = () => {
     //   check error
 
   const checkSubmit = () => {
-        if (!title || !complaint || department || priority ) {
+        if (title === '' || body === '' || department === '' || priority === '' ) {
         handleClick("All Fields Are Required");
         } else {
         const data = {
             title,
-            complaint,
+            body,
             priority,
             department
         };
-        return AxiosAuth.post("/marketer/create-complaint", data)
+        return AxiosAuth().post("/marketer/create-complaint", data)
             .then((res) => {
             handleClick(
                 `Successfully Created`
@@ -67,8 +67,8 @@ const AddCompliant = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setSubmitted(true);
         checkSubmit();
+        setSubmitted(true);
       };
 
     return (
@@ -93,7 +93,7 @@ const AddCompliant = () => {
                 key={"top center"}
             />
             <Content>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <InputGroup>
                         <label for="title">Title</label>
                         <input type="text" name="title" value={title}
@@ -102,19 +102,19 @@ const AddCompliant = () => {
                     <div className="row">
                         <div className="col-md-6">
                             <InputGroup>
-                                <label for="title">Title</label>
+                                <label for="title">Priotity</label>
                                 <select name="priority" value={priority} onChange={(e) => setPriority(e.target.value)}>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
-                                    <option value="5">5</option>
                                     <option value="4">4</option>
+                                    <option value="5">5</option>
                                 </select>
                             </InputGroup>
                         </div>
                         <div className="col-md-6">
                             <InputGroup>
-                                <label for="title">Title</label>
+                                <label for="title">Department</label>
 
                                 <select name="department" value={department} onChange={(e) => setDepartment(e.target.value)}>
                                     <option value="sales">Sales</option>
@@ -126,12 +126,12 @@ const AddCompliant = () => {
                     </div>
                     <InputGroup>
                         <label for="title">Compliant</label>
-                        <textarea name="complaint" placeholder="Add Your Compliant" 
-                            value={complaint}
-                            onChange={(e) => setComplaint(e.target.value)}  />
+                        <textarea name="body" placeholder="Add Your Compliant" 
+                            value={body}
+                            onChange={(e) => setBody(e.target.value)}  />
                     </InputGroup>
                     <InputGroup>
-                        <button onClick={handleSubmit} type="submit">{submitted ? (
+                        <button type="submit">{submitted ? (
                 <div className="spinner-border text-dark" role="status"></div>
               ) : (
                 "Send Compliant"

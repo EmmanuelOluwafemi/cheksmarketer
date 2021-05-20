@@ -12,7 +12,6 @@ import Subscriber from "./Pages/Subscriber";
 import Profile from "./Pages/Profile";
 import EditProfile from "./Pages/Profile/EditProfile";
 import AddCompliant from "./Pages/AddCompliant";
-import Messages from "./Pages/Messages";
 import ForgetPassword from "./Pages/ForgetPassword";
 import Register from "./Pages/Registration";
 
@@ -44,9 +43,6 @@ function App() {
         </Route>
         <Route exact path="/profile/edit">
           <EditProfile />
-        </Route>
-        <Route exact path="/message">
-          <Messages />
         </Route>
       </Switch>
     </Router>

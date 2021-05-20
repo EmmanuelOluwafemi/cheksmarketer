@@ -122,7 +122,7 @@ const EditProfile = () => {
             <div className="avatar">
               <img src={
                   user.image ? 
-                      `https://cheks.telneting.com/storage/product_images/${user.image}`:
+                      user.image:
                       'http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png'
               } alt="user profile"/>
               <input name='image' type="file" id="avatar" hidden />

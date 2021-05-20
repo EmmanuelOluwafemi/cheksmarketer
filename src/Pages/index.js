@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 import AdminDashboardLayout from '../Layout/AdminDashboardLayout';
 
-import { Activities,  GreenCard, PurpleCard, RedCard } from '../Component/DashboardCard';
+import { GreenCard, PurpleCard, RedCard } from '../Component/DashboardCard';
 import Chart from '../Component/Chart';
 import DashboardCardGrid from '../Component/DashboardCardGrid';
 
@@ -56,7 +56,6 @@ const AdminDashboard = () => {
             </DashboardCardGrid>
             <ChartGrid>
                 <Chart newData={graph} />
-                <Activities />
             </ChartGrid>
         </AdminDashboardLayout>
         }
@@ -70,7 +69,7 @@ const ChartGrid = Styled.div`
     width: 100%;
     height: 400px;
     display: grid;
-    grid-template-columns: 70% 20%;
+    grid-template-columns: 1fr;
     grid-column-gap: 16px; 
     margin-top: 2rem;
 `;

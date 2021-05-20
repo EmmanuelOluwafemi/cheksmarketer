@@ -9,11 +9,13 @@ import { IoMdCall } from 'react-icons/io';
 import AxiosAuth from "../../lib/AxiosAuth";
 import AdminDashboardLayout from '../../Layout/AdminDashboardLayout';
 import { Loader } from '../../Component/loader/Loader';
+import PaymentModal from '../../Component/Payment/PaymentModal';
 
 const Profile = () => {
 
     const [user, setUser] = useState([])
     const [loading, setLoading] = useState(false);
+    const [widthdraw, setWithdraw] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -29,12 +31,17 @@ const Profile = () => {
         });
     }, [])
 
+    const handleWithdraw = () => {
+        return setWithdraw(!widthdraw)
+    }
+
     return (
         <>
         {
             loading ? 
             <Loader /> :
             <AdminDashboardLayout>
+                { widthdraw && <PaymentModal handleWithdraw={handleWithdraw} />}
                 <ProfileContainer>
                     <h1>Profile</h1>
                     <div className="row">
@@ -42,7 +49,7 @@ const Profile = () => {
                             <div className="avatar">
                                 <img src={
                                     user.image ? 
-                                        `https://cheks.telneting.com/storage/product_images/${user.image}`:
+                                        user.image:
                                         'http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png'
                                 } alt="user profile"/>
                             </div>
@@ -69,13 +76,12 @@ const Profile = () => {
                                 <div className="row">
                                     <Card className="col-md-5 mx-3 mx-md-0">
                                         <h4>Wallet</h4>
-                                        <h1>#35,000</h1>
-                                        <button>Fund Wallet</button>
+                                        <h1>{user.wallet}</h1>
+                                        <button onClick={handleWithdraw}>Withdraw Balance</button>
                                     </Card>
                                     <Card className="col-md-5 mx-3 mx-md-0 ml-md-3">
                                         <h4>Points</h4>
-                                        <h1>5,000</h1>
-                                        <button>Get Points</button>
+                                        <h1>{user.points}</h1>
                                     </Card>
                                 </div>
                             </div>
