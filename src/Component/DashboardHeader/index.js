@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import Styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import Styled from "styled-components";
 
-import { IoIosNotifications } from 'react-icons/io';
-import { RiMenu4Line } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
-import logo from './images/logo.svg';
+// import { IoIosNotifications } from 'react-icons/io';
+import { RiMenu4Line } from "react-icons/ri";
+import { Link } from "react-router-dom";
+import logo from "./images/logo.svg";
 
 import AxiosAuth from "../../lib/AxiosAuth";
 
 const DashboardHeader = ({ setSidebar }) => {
+  const [dropdown, setDropdown] = useState(false);
+  const [data, setData] = useState([]);
 
-    const [dropdown, setDropdown] = useState(false);
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
+  useEffect(() => {
     AxiosAuth()
       .get(`/user`)
       .then((res) => {
@@ -21,24 +20,26 @@ const DashboardHeader = ({ setSidebar }) => {
         setData(res.data);
       })
       .catch((err) => {
-          console.log(err);
+        console.log(err);
       });
-    }, [])
+  }, []);
 
-    const handleSidebar = () => {
-        setSidebar(true);
-    }
+  const handleSidebar = () => {
+    setSidebar(true);
+  };
 
-    const handleDropdown = () => {
-        setDropdown(!dropdown);
-    }
+  // const handleDropdown = () => {
+  //     setDropdown(!dropdown);
+  // }
 
-    return (
-        <HeaderStyle>
-            <RiMenu4Line onClick={handleSidebar} className="mobileToggler" />
-            <Link to="/" className="logo"><img src={logo} alt="cheksng logo"/></Link>
-            <div className="userInfo">
-                {/* <div onClick={handleDropdown} className="notification">
+  return (
+    <HeaderStyle>
+      <RiMenu4Line onClick={handleSidebar} className="mobileToggler" />
+      <Link to="/" className="logo">
+        <img src={logo} alt="cheksng logo" />
+      </Link>
+      <div className="userInfo">
+        {/* <div onClick={handleDropdown} className="notification">
                     <IoIosNotifications className="icons" />
                     <div className="postActive"></div>
                     <ul className={dropdown ? "dropdown show" : 'dropdown'}>
@@ -48,18 +49,20 @@ const DashboardHeader = ({ setSidebar }) => {
                         <li>Recent Activities</li>
                     </ul>
                 </div> */}
-                <div className="avatar">
-                    <img src={
-                        data.image ? 
-                            `https://cheks.telneting.com/storage/product_images/${data.image}`:
-                            'http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png'
-                    } alt={data.name}/>
-                </div>
-            </div>
-
-        </HeaderStyle>
-    )
-}
+        <div className="avatar">
+          <img
+            src={
+              data.image
+                ? `https://cheks.telneting.com/storage/product_images/${data.image}`
+                : "http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png"
+            }
+            alt={data.name}
+          />
+        </div>
+      </div>
+    </HeaderStyle>
+  );
+};
 
 export default DashboardHeader;
 

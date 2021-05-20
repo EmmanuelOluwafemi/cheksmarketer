@@ -1,100 +1,127 @@
-import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
-import Styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Styled from "styled-components";
 
-import { RiUserLocationLine } from 'react-icons/ri';
-import { SiMinutemailer } from 'react-icons/si';
-import { IoMdCall } from 'react-icons/io';
+import { RiUserLocationLine } from "react-icons/ri";
+import { SiMinutemailer } from "react-icons/si";
+import { IoMdCall } from "react-icons/io";
 
 import AxiosAuth from "../../lib/AxiosAuth";
-import AdminDashboardLayout from '../../Layout/AdminDashboardLayout';
-import { Loader } from '../../Component/loader/Loader';
-import PaymentModal from '../../Component/Payment/PaymentModal';
+import AdminDashboardLayout from "../../Layout/AdminDashboardLayout";
+import { Loader } from "../../Component/loader/Loader";
+import PaymentModal from "../../Component/Payment/PaymentModal";
+import axios from "axios";
 
 const Profile = () => {
+  const [user, setUser] = useState([]);
+  const [banks, setBanks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [widthdraw, setWithdraw] = useState(false);
 
-    const [user, setUser] = useState([])
-    const [loading, setLoading] = useState(false);
-    const [widthdraw, setWithdraw] = useState(false);
-
-    useEffect(() => {
-        setLoading(true);
-        AxiosAuth()
-        .get("/user")
-        .then((res) => {
-            setUser(res.data)
-            setLoading(false)
-        })
-        .catch((err) => {
+  useEffect(() => {
+    setLoading(true);
+    AxiosAuth()
+      .get("/user")
+      .then((res) => {
+        setUser(res.data);
+        setLoading(false);
+      })
+      .then(() => {
+        axios
+          .get("https://api.paystack.co/bank")
+          .then((res) => {
+            setBanks(res.data.data);
+          })
+          .catch((err) => {
             console.log(err);
-            setLoading(false)
-        });
-    }, [])
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, []);
 
-    const handleWithdraw = () => {
-        return setWithdraw(!widthdraw)
-    }
+  const handleWithdraw = () => {
+    return setWithdraw(!widthdraw);
+  };
 
-    return (
-        <>
-        {
-            loading ? 
-            <Loader /> :
-            <AdminDashboardLayout>
-                { widthdraw && <PaymentModal handleWithdraw={handleWithdraw} />}
-                <ProfileContainer>
-                    <h1>Profile</h1>
-                    <div className="row">
-                        <ProfileCard className="col-md-5">
-                            <div className="avatar">
-                                <img src={
-                                    user.image ? 
-                                        user.image:
-                                        'http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png'
-                                } alt="user profile"/>
-                            </div>
-                            <h2>{user.name}</h2>
-                            <p>Premium</p>
+  return (
+    <>
+      {loading ? (
+        <Loader />
+      ) : (
+        <AdminDashboardLayout>
+          {widthdraw && (
+            <PaymentModal handleWithdraw={handleWithdraw} banks={banks} />
+          )}
+          <ProfileContainer>
+            <h1>Profile</h1>
+            <div className="row">
+              <ProfileCard className="col-md-5">
+                <div className="avatar">
+                  <img
+                    src={
+                      user.image
+                        ? user.image
+                        : "http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png"
+                    }
+                    alt="user profile"
+                  />
+                </div>
+                <h2>{user.name}</h2>
+                <p>Premium</p>
 
-                            <ul className="description">
-                                <li><RiUserLocationLine className="icons" />{user.location}</li>
-                                <li><SiMinutemailer className="icons" />{user.email}</li>
-                                <li><IoMdCall className="icons" />{user.telephone}</li>
-                            </ul>
-                        </ProfileCard>
-                        <RightContent className="col-md-7">
-                            <div className="idCard">
-                                <div className="title">
-                                    <div className="textTitle">User Id</div>
-                                    <button>Copy</button>
-                                </div>
-                                <h2>{user.role_id}</h2>
-                                <p>Personal</p>
-                            </div>
+                <ul className="description">
+                  <li>
+                    <RiUserLocationLine className="icons" />
+                    {user.location}
+                  </li>
+                  <li>
+                    <SiMinutemailer className="icons" />
+                    {user.email}
+                  </li>
+                  <li>
+                    <IoMdCall className="icons" />
+                    {user.telephone}
+                  </li>
+                </ul>
+              </ProfileCard>
+              <RightContent className="col-md-7">
+                <div className="idCard">
+                  <div className="title">
+                    <div className="textTitle">User Id</div>
+                    <button>Copy</button>
+                  </div>
+                  <h2>{user.role_id}</h2>
+                  <p>Personal</p>
+                </div>
 
-                            <div className="ml-0 ml-md-3 otherContainer">
-                                <div className="row">
-                                    <Card className="col-md-5 mx-3 mx-md-0">
-                                        <h4>Wallet</h4>
-                                        <h1>{user.wallet}</h1>
-                                        <button onClick={handleWithdraw}>Withdraw Balance</button>
-                                    </Card>
-                                    <Card className="col-md-5 mx-3 mx-md-0 ml-md-3">
-                                        <h4>Points</h4>
-                                        <h1>{user.points}</h1>
-                                    </Card>
-                                </div>
-                            </div>
+                <div className="ml-0 ml-md-3 otherContainer">
+                  <div className="row">
+                    <Card className="col-md-5 mx-3 mx-md-0">
+                      <h4>Wallet</h4>
+                      <h1>{user.wallet}</h1>
+                      <button onClick={handleWithdraw}>Withdraw Balance</button>
+                    </Card>
+                    <Card className="col-md-5 mx-3 mx-md-0 ml-md-3">
+                      <h4>Points</h4>
+                      <h1>{user.points}</h1>
+                    </Card>
+                  </div>
+                </div>
 
-                            <div className="buttonSpacer"><Link to="/profile/edit">Edit Profile</Link></div>
-                        </RightContent>
-                    </div>
-                </ProfileContainer>
-            </AdminDashboardLayout>
-        }
-        </>
-    )
-}
+                <div className="buttonSpacer">
+                  <Link to="/profile/edit">Edit Profile</Link>
+                </div>
+              </RightContent>
+            </div>
+          </ProfileContainer>
+        </AdminDashboardLayout>
+      )}
+    </>
+  );
+};
 
 export default Profile;
 

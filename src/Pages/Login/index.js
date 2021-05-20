@@ -20,7 +20,6 @@ const Login = () => {
   const [passwordValue, setPasswordValue] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [showSnackBar, setShowSnackBar] = useState(false);
-  const [error, setError] = useState([]);
 
   // handle err
   const handleClick = (mes) => {
@@ -53,7 +52,6 @@ const Login = () => {
         })
         .catch((err) => {
           console.log(err.response.data);
-          setError(err.response.data.errors);
           setSubmitted(false);
           handleClick(err.response.data.message);
         });
@@ -88,7 +86,6 @@ const Login = () => {
                 onChange={(e) => setEmailValue(e.target.value)}
                 placeholder="Enter Your Email"
               />
-              {error.email && <p className="error">{error.email}</p>}
             </div>
 
             <div className="inputGroup">
@@ -99,7 +96,6 @@ const Login = () => {
                 value={passwordValue}
                 onChange={(e) => setPasswordValue(e.target.value)}
                 />
-                {error.email && <p className="error">{error.email}</p>}
             </div>
             <div className="linkContainer">
               <Link className="linked">Forgot Password?</Link>
