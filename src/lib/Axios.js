@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const Axios = axios.create({
-  baseURL: "https://cheks.telneting.com/api",
+  baseURL: "https://api.cheks.ng/api/v1",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
