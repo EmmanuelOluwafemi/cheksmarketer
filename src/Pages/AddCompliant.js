@@ -102,8 +102,9 @@ const AddCompliant = () => {
                     <div className="row">
                         <div className="col-md-6">
                             <InputGroup>
-                                <label for="title">Priotity</label>
+                                <label for="title">Priority</label>
                                 <select name="priority" value={priority} onChange={(e) => setPriority(e.target.value)}>
+                                    <option>Select Priority Rate</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -117,6 +118,7 @@ const AddCompliant = () => {
                                 <label for="title">Department</label>
 
                                 <select name="department" value={department} onChange={(e) => setDepartment(e.target.value)}>
+                                    <option>Select Department</option>
                                     <option value="sales">Sales</option>
                                     <option value="technical">Technical</option>
                                     <option value="productGrowth">Product Growth</option>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styled from 'styled-components';
 import Sidebar from '../../Component/Sidebar';
 
@@ -6,7 +6,6 @@ import { AiFillDashboard } from 'react-icons/ai';
 import { AiOutlineUsergroupAdd } from 'react-icons/ai';
 import { FaUserAlt } from 'react-icons/fa';
 import { RiEmotionUnhappyFill } from 'react-icons/ri';
-import { GrChatOption } from 'react-icons/gr';
 import { BiLogOut } from "react-icons/bi";
 
 import { NavLink, useHistory } from 'react-router-dom';
@@ -18,10 +17,16 @@ const AdminDashboardLayout = (props) => {
     const [sideBar, setSidebar] = useState(false);
     let history = useHistory();
 
-    const handleLogout = () => {
-        if(localStorage.getItem("cheToken")) {
-            localStorage.removeItem("cheToken");
+    useEffect(() => {
+        if(!localStorage.getItem("adminToken")) {
+            history.push('/login');
+        }
+    }, [])
 
+    const handleLogout = () => {
+        console.log("click")
+        if(localStorage.getItem("adminToken")) {
+            localStorage.removeItem("adminToken");
             history.push('/login');
         }
     }
@@ -33,7 +38,6 @@ const AdminDashboardLayout = (props) => {
                     <NavLink exact activeClassName="active" to="/dashboard"><AiFillDashboard className="icons" /> Dashboard</NavLink>
                     <NavLink activeClassName="active" to="/dashboard/subscribe"><AiOutlineUsergroupAdd className="icons" /> Subscriber</NavLink>
                     <NavLink activeClassName="active" to="/dashboard/comliant"><RiEmotionUnhappyFill className="icons" /> Add Complaint</NavLink>
-                    <NavLink activeClassName="active" to="/message"><GrChatOption className="icons" /> Messages</NavLink>
                     <NavLink activeClassName="active" to="/profile"><FaUserAlt className="icons" /> Profile</NavLink>
                     <div onClick={handleLogout} className="log">
                         <BiLogOut className="icons" /> Logout

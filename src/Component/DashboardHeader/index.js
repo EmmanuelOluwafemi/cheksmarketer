@@ -9,7 +9,6 @@ import logo from "./images/logo.svg";
 import AxiosAuth from "../../lib/AxiosAuth";
 
 const DashboardHeader = ({ setSidebar }) => {
-  const [dropdown, setDropdown] = useState(false);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -53,7 +52,7 @@ const DashboardHeader = ({ setSidebar }) => {
           <img
             src={
               data.image
-                ? `https://cheks.telneting.com/storage/product_images/${data.image}`
+                ? data.image
                 : "http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png"
             }
             alt={data.name}

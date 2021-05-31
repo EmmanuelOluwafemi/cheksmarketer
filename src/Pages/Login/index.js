@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Styled from "styled-components";
 
@@ -20,6 +20,12 @@ const Login = () => {
   const [passwordValue, setPasswordValue] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [showSnackBar, setShowSnackBar] = useState(false);
+
+  useEffect(() => {
+    if(localStorage.getItem("adminToken")) {
+        history.push('/dashboard');
+    }
+}, [history])
 
   // handle err
   const handleClick = (mes) => {
@@ -98,7 +104,7 @@ const Login = () => {
                 />
             </div>
             <div className="linkContainer">
-              <Link className="linked">Forgot Password?</Link>
+              <Link to="/forget_password" className="linked">Forgot Password?</Link>
             </div>
             <button type="submit">
               {submitted ? (

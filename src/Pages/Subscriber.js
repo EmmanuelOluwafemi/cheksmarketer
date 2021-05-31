@@ -7,8 +7,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
 import ActionButton from '../Component/ActionButton';
-import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
-import CloseIcon from '@material-ui/icons/Close';
 
 import {TableContainer} from '../Style/TableContainerStyle';
 
@@ -23,12 +21,11 @@ import CreateUser from '../CreateUser/CreateUser';
 import DeleteUser from '../Component/DeleteUser/DeleteUser';
 
 const headCells = [
-    {id: 'BuyersId', label: 'Subscriber Id'},
+    {id: 'subscriberId', label: 'Subscriber Id'},
     {id: 'name', label: 'Name'},
     {id: 'email', label: 'Email', disableSorting: true},
     {id: 'location', label: 'Location', disableSorting: true},
     {id: 'telephone', label: 'Telephone', disableSorting: true},
-    {id: 'Action', label: 'Action', disableSorting: true},
 ]
 
 
@@ -124,8 +121,8 @@ const Subscriber = () => {
                     <AiOutlineUsergroupAdd className='icon-fill' />
                 </div>
                 <div className="heading">
-                    <h6>Buyer</h6>
-                    <p>Add the buyers info here for proper registration</p>
+                    <h6>Subscriber</h6>
+                    <p>Add the subcriber info here for proper registration</p>
                 </div>
             </DashboardHeader>
 
@@ -161,16 +158,6 @@ const Subscriber = () => {
                                     <TableCell>{item.email}</TableCell>
                                     <TableCell>{item.location}</TableCell>
                                     <TableCell>{item.telephone}</TableCell>
-                                    <TableCell>
-                                        <ActionButton
-                                            color="#84e35d">
-                                            <VisibilityOutlinedIcon fontSize="small" />
-                                        </ActionButton>
-                                        <ActionButton
-                                            color="secondary">
-                                            <CloseIcon fontSize="small" />
-                                        </ActionButton>
-                                    </TableCell>
                                 </TableRow>
                             ))
                         }

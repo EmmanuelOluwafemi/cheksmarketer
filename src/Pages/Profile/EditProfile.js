@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import Styled from "styled-components";
 import DashboardModal from "../../Component/DashboardModal";
@@ -7,46 +7,37 @@ import { Snackbar } from "@material-ui/core";
 import AdminDashboardLayout from "../../Layout/AdminDashboardLayout";
 import { Loader } from "../../Component/loader/Loader";
 
+import { useHistory } from 'react-router-dom';
+
 const EditProfile = () => {
   const [openModal, setModal] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [name, setName] = useState("");
-  const [location, setLocation] = useState("");
-  const [telephone, setPhone] = useState("");
-  const [image, setImage] = useState("");
   const [showSnackBar, setShowSnackBar] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState("");
-  const [loading, setLoading] = useState(false)
+
+  let history = useHistory();
+
+  const formRef = useRef(null)
+  const imgUdateRef = useRef(null)
+  const imageRef = useRef(null)
+  const avatarRef = useRef(null)
 
   useEffect(() => {
-    setLoading(true);
     AxiosAuth()
-        .get("/user")
-        .then((res) => {
-            setUser(res.data)
-            setLoading(false)
-        })
-        .catch((err) => {
-            console.log(err);
-            setLoading(false)
-        });
-  }, [])
-
-  //   reset State
-  const reset = () => {
-    setSubmitted();
-    setName("");
-    setLocation("");
-    setPhone("");
-    setImage("");
-  };
+      .get("/user")
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   // handle err
   const handleClick = (mes) => {
     setErrorMessage(mes);
     setShowSnackBar(true);
-    setSubmitted(false);
   };
 
   const handleClose = () => {
@@ -66,25 +57,55 @@ const EditProfile = () => {
   };
 
   const handleSubmit = () => {
-    const data = {
-      name,
-      telephone,
-      location,
-      image
-    };
-    return AxiosAuth().put("/account/update-profile", data)
+    setLoading(true)
+    let formData = new FormData(formRef.current);
+
+    return AxiosAuth()
+      .post("/account/update-profile", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
       .then((res) => {
-        handleClick(
-          `Successfully Updated ${name} Account`
-        );
-        reset();
+        handleClick(`Successfully Updated Account`);
+        history.replace("/user/profile");
+        window.location.reload(true)
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err.response.data.message);
         handleClick(err.response.data.message);
+        setLoading(false)
       });
-  }
+  };
 
+  const handleImageUpdate = () => {
+    if (imageRef.current.files[0]) {
+      let fileReader = new FileReader();
+
+      fileReader.onload = function (event) {
+        avatarRef.current.src = event.target.result;
+      };
+
+      fileReader.readAsDataURL(imageRef.current.files[0]);
+
+      let imgData = new FormData(imgUdateRef.current);
+
+      return AxiosAuth()
+        .post("/account/update-profile", imgData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((res) => {
+          handleClick(`Successfully Updated Account`);
+          history.replace("/user/profile");
+          window.location.reload(true)
+          setLoading(false)
+        })
+        .catch((err) => {
+          console.log(err.response.data.message);
+          handleClick(err.response.data.message);
+          setLoading(false)
+        });
+    }
+  }
   return (
     <>
     {
@@ -105,11 +126,13 @@ const EditProfile = () => {
           details.
         </p>
         <Buttons>
-          <button onClick={handleSubmit} className="active">{submitted ? (
-                <div className="spinner-border text-dark" role="status"></div>
-              ) : (
-                "Edit Profile"
-              )}</button>
+          <button onClick={handleSubmit} className="active">
+            {loading ? (
+              <div className="spinner-border text-dark" role="status"></div>
+            ) : (
+              "Edit Profile"
+            )}
+          </button>
           <button onClick={handleCancel} className="outlineError">
             Cancel
           </button>
@@ -120,20 +143,25 @@ const EditProfile = () => {
         <div className="row">
           <ProfileCard className="col-md-5">
             <div className="avatar">
-              <img src={
-                  user.image ? 
-                      user.image:
-                      'http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png'
-              } alt="user profile"/>
-              <input name='image' type="file" id="avatar" hidden />
-              <label htmlFor="avatar">+</label>
+              <img
+                ref={avatarRef}
+                src={
+                  user.image
+                    ? user.image
+                    : "http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png"
+                }
+                alt="user profile"
+              />
+              <form ref={imgUdateRef}>
+                <input ref={imageRef} onChange={handleImageUpdate} name="image" type="file" id="avatar" hidden />
+                <label htmlFor="avatar">+</label>
+              </form>
             </div>
             <h2>{user.name}</h2>
             <h6>{user.role_id}</h6>
-            <p>Premium</p>
           </ProfileCard>
 
-          <FormStyle className="col-md-7">
+          <FormStyle className="col-md-7" ref={formRef}>
             <h3>Basic Info</h3>
             <div className="inputGroup">
               <label htmlFor="name">Full Name</label>
@@ -142,7 +170,6 @@ const EditProfile = () => {
                 name="name"
                 type="text"
                 placeholder="Enter Fullname"
-                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="inputGroup">
@@ -152,7 +179,6 @@ const EditProfile = () => {
                 name="phoneNumber"
                 type="text"
                 placeholder="Enter Phone Number"
-                onChange={(e) => setPhone(e.target.value)}
               />
             </div>
             <div className="inputGroup">
@@ -162,12 +188,13 @@ const EditProfile = () => {
                 name="location"
                 type="text"
                 placeholder="Enter Location"
-                onChange={(e) => setLocation(e.target.value)}
               />
             </div>
 
             <div className="buttonSpacer">
-              <button onClick={handleOnclick}>Submit</button>
+              <button onClick={handleOnclick}>
+                Submit
+              </button>
             </div>
           </FormStyle>
         </div>
@@ -177,6 +204,7 @@ const EditProfile = () => {
             vertical: "bottom",
             horizontal: "center",
           }}
+          autoHideDuration={4000}
           open={showSnackBar}
           onClose={handleClose}
           message={errorMessage}
@@ -223,7 +251,7 @@ const Buttons = Styled.div`
     }
 `;
 
-const ProfileContainer = Styled.form`
+const ProfileContainer = Styled.div`
     width: 100%;
     min-height: 700px;
 
@@ -322,7 +350,7 @@ const ProfileCard = Styled.div`
     }
 `;
 
-const FormStyle = Styled.div`
+const FormStyle = Styled.form`
     background: #fff;
     box-sizing: border-box;
     border-left: 1px solid rgba(0, 0, 0, .3);
