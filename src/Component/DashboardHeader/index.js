@@ -3,25 +3,32 @@ import Styled from "styled-components";
 
 // import { IoIosNotifications } from 'react-icons/io';
 import { RiMenu4Line } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import logo from "./images/logo.svg";
 
 import AxiosAuth from "../../lib/AxiosAuth";
 
 const DashboardHeader = ({ setSidebar }) => {
+
+  const history = useHistory();
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
     AxiosAuth()
       .get(`/user`)
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data)
         setData(res.data);
+
+        if(!res.data.role.includes('marketer')) {
+          history.push('/login')
+        }
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [history]);
 
   const handleSidebar = () => {
     setSidebar(true);
