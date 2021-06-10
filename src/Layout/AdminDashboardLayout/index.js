@@ -19,9 +19,10 @@ const AdminDashboardLayout = (props) => {
 
     useEffect(() => {
         if(!localStorage.getItem("adminToken")) {
+            localStorage.removeItem("adminToken")
             history.push('/login');
         }
-    }, [])
+    }, [history])
 
     const handleLogout = () => {
         console.log("click")

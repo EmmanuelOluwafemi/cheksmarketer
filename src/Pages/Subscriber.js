@@ -6,7 +6,6 @@ import { TableBody, TableRow, TableCell, Toolbar, TextField, InputAdornment, But
 import {makeStyles} from '@material-ui/core/styles';
 import { Search } from '@material-ui/icons';
 import AddIcon from '@material-ui/icons/Add';
-import ActionButton from '../Component/ActionButton';
 
 import {TableContainer} from '../Style/TableContainerStyle';
 
@@ -21,7 +20,6 @@ import CreateUser from '../CreateUser/CreateUser';
 import DeleteUser from '../Component/DeleteUser/DeleteUser';
 
 const headCells = [
-    {id: 'subscriberId', label: 'Subscriber Id'},
     {id: 'name', label: 'Name'},
     {id: 'email', label: 'Email', disableSorting: true},
     {id: 'location', label: 'Location', disableSorting: true},
@@ -30,16 +28,40 @@ const headCells = [
 
 
 const useStyles = makeStyles(theme => ({
+    tool: {
+        display: 'flex',
+        '@media (max-width: 450px)': {
+            flexDirection: 'column'
+        }
+    },
     searchInput: {
         width: '65%',
+
+        '@media (max-width: 450px)': {
+            display: 'block',
+            width: '100%'
+        }
     },
     newButton: {
         position: 'absolute',
         right: '10px',
         height: '50px',
+        background: 'green',
+        color: 'white',
 
-        '& media (max-width: 450px)': {
-            right: '-13rem',
+        '&:hover': {
+            background: 'teal',
+            color: 'white',
+        },
+
+        '@media (max-width: 450px)': {
+            position: 'static',
+            right: '0',
+            width: '70%',
+            marginLeft: 'auto;',
+            marginTop: '1.2rem',
+            display: 'flex',
+            fontSize: '12px',
         }
     }
 }))
@@ -128,7 +150,7 @@ const Subscriber = () => {
 
             {subscriber.length > 0 ?
             <TableContainer>
-                <Toolbar>
+                <Toolbar className={classes.tool}>
                     <TextField
                         variant="outlined"
                         label="search"
@@ -145,7 +167,7 @@ const Subscriber = () => {
                         variant="outlined"
                         startIcon = {<AddIcon />}
                         onClick={handleModal}
-                    > Add Buyer </Button>
+                    > Add Subscriber </Button>
                 </Toolbar>
                 <TblContainer>
                     <TblHead />
@@ -153,7 +175,6 @@ const Subscriber = () => {
                         {
                             recordAfterPagingAndSorting().map(item => (
                                 <TableRow key={item.id}>
-                                    <TableCell>{item.role_id}</TableCell>
                                     <TableCell>{item.name}</TableCell>
                                     <TableCell>{item.email}</TableCell>
                                     <TableCell>{item.location}</TableCell>

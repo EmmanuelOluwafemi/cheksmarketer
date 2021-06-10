@@ -27,6 +27,7 @@ const EditProfile = () => {
     AxiosAuth()
       .get("/user")
       .then((res) => {
+        console.log(res.data)
         setUser(res.data);
       })
       .catch((err) => {
@@ -66,7 +67,7 @@ const EditProfile = () => {
       })
       .then((res) => {
         handleClick(`Successfully Updated Account`);
-        history.replace("/user/profile");
+        history.replace("/profile");
         window.location.reload(true)
         setLoading(false)
       })
@@ -148,7 +149,7 @@ const EditProfile = () => {
                 src={
                   user.image
                     ? user.image
-                    : "http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png"
+                    : "https://res.cloudinary.com/dhqvopvj4/image/upload/v1623296487/avatar_rm5wit.jpg"
                 }
                 alt="user profile"
               />
@@ -168,6 +169,7 @@ const EditProfile = () => {
               <input
                 id="name"
                 name="name"
+                defaultValue={user.name}
                 type="text"
                 placeholder="Enter Fullname"
               />
@@ -176,7 +178,8 @@ const EditProfile = () => {
               <label htmlFor="name">Phone Number</label>
               <input
                 id="phoneNumber"
-                name="phoneNumber"
+                defaultValue={user.telephone}
+                name="telephone"
                 type="text"
                 placeholder="Enter Phone Number"
               />
@@ -185,6 +188,7 @@ const EditProfile = () => {
               <label htmlFor="name">Location</label>
               <input
                 id="location"
+                defaultValue={user.location}
                 name="location"
                 type="text"
                 placeholder="Enter Location"

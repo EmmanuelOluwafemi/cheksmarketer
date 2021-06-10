@@ -45,22 +45,12 @@ const DashboardHeader = ({ setSidebar }) => {
         <img src={logo} alt="cheksng logo" />
       </Link>
       <div className="userInfo">
-        {/* <div onClick={handleDropdown} className="notification">
-                    <IoIosNotifications className="icons" />
-                    <div className="postActive"></div>
-                    <ul className={dropdown ? "dropdown show" : 'dropdown'}>
-                        <li>Recent Activities</li>
-                        <li>Recent Activities</li>
-                        <li>Recent Activities</li>
-                        <li>Recent Activities</li>
-                    </ul>
-                </div> */}
         <div className="avatar">
           <img
             src={
               data.image
                 ? data.image
-                : "http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png"
+                : "https://res.cloudinary.com/dhqvopvj4/image/upload/v1623296487/avatar_rm5wit.jpg"
             }
             alt={data.name}
           />

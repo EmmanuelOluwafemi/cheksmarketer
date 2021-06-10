@@ -9,6 +9,8 @@ import GoogleLogin from 'react-google-login';
 
 import Axios from "../../lib/Axios";
 
+import NaijaStates from 'naija-state-local-government';
+
 
 const InitialSlide = ({ emailBtn }) => {
   
@@ -339,23 +341,15 @@ const ThirdSlide = () => {
   const [newLg, setNewLg] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://locationsng-api.herokuapp.com/api/v1/states")
-      .then((data) => {
-        setStates(data.data);
-      });
+    // console.log(NaijaStates.states())
+    setStates(NaijaStates.states())
   }, []);
 
   const handleOptionChange = (e) => {
     let stateName = e.target.value;
     setChosenState(stateName);
-    axios
-      .get(
-        `http://locationsng-api.herokuapp.com/api/v1/states/${stateName}/lgas`
-      )
-      .then((data) => {
-        setLg(data.data);
-      });
+    
+    setLg(NaijaStates.lgas(stateName).lgas);
   };
 
   const lgHandler = (e) => {
@@ -391,8 +385,8 @@ const ThirdSlide = () => {
           margin="dense"
         >
           {states.map((option) => (
-            <MenuItem key={generateId()} value={option.name}>
-              {option.name}
+            <MenuItem key={generateId()} value={option}>
+              {option}
             </MenuItem>
           ))}
         </TextField>

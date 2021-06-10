@@ -170,11 +170,7 @@ const Register = () => {
             <LoginBgStyle className="col-md-6 d-none d-md-block bg-secondary">
               <div className="contentNew">
                 <p>
-                  Let fourth had man thing. Abundantly second bearing multiply
-                  said female hath given give subdue may gathered herb saw moved
-                  Him saying bearing which you'll open make that A. Seed days
-                  Air moved male form one two place. Winged firmament Together
-                  the i two there you above. Called all beginning.
+                  
                 </p>
                 <Link to="/login">
                   <button>Log In</button>

@@ -118,10 +118,7 @@ const Login = () => {
         <LoginBgStyle className="col-md-6 d-none d-md-block bg-secondary">
           <div className="contentNew">
             <p>
-              Libero, porta accumsan, pulvinar ullamcorper. Sit amet maecenas
-              tellus diam nisi faucibus. Facilisi lorem egestas magna vulputate
-              natoque morbi. At tempus volutpat ultrices morbi nisl, semper
-              sodales convallis dolor. Est morbi urna tellus..
+              
             </p>
             <Link to="/register">
               <button>Sign Up</button>

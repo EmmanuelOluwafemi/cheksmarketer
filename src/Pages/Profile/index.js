@@ -64,7 +64,7 @@ const Profile = () => {
                     src={
                       user.image
                         ? user.image
-                        : "http://www.pngall.com/wp-content/uploads/5/Profile-Avatar-PNG.png"
+                        : "https://res.cloudinary.com/dhqvopvj4/image/upload/v1623296487/avatar_rm5wit.jpg"
                     }
                     alt="user profile"
                   />
