@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { Snackbar } from "@material-ui/core";
 
-import AuthLayout from "../../../Layouts/AuthLayout";
-import Axios from "../../../lib/Axios";
+import AuthLayout from "../../Layout/AuthLayout";
+import Axios from "../../lib/Axios";
 import { InputSection, LoginBgStyle, LoginRow } from "../Login";
 
 const ForgetPassword = (props) => {
@@ -51,7 +51,6 @@ const ForgetPassword = (props) => {
           history.replace("/user");
         })
         .catch((err) => {
-          console.log(err.response.data.message);
           setSubmitted(false);
           // handleClick(err.response.data.message);
           setError(err.response.data.errors)

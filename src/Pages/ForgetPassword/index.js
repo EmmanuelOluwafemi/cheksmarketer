@@ -41,7 +41,6 @@ const ForgetPassword = (props) => {
           setResult(true);
         })
         .catch((err) => {
-          console.log(err.response.data.message);
           setSubmitted(false);
           handleClick("No account found with this email");
         });
