@@ -36,6 +36,7 @@ const AdminDashboard = () => {
         AxiosAuth()
         .get("/marketer/analytics-graph")
         .then((res) => {
+            console.log(res.data.data)
             setGraph(res.data.data)
             setLoading(false)
         })

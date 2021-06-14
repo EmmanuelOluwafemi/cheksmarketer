@@ -150,7 +150,7 @@ const Register = () => {
           localStorage.removeItem("regData");
 
           // redirects the user to the dashboard
-          history.replace("/user");
+          history.replace("/dashboard");
           setLoading(false);
         })
         .catch((err) => console.log(err));

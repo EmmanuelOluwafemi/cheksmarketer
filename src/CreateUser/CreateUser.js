@@ -59,11 +59,12 @@ const CreateUser = ({ userType, title, openModal, setModal }) => {
             `Successfully Created ${userType} Account for ${res.data.data.name}`
           );
           reset();
+          window.location.reload(true)
         })
         .catch((err) => {
           console.log(err.response.data);
           setError(err.response.data.errors);
-          handleClick(err.response.data.message);
+          // handleClick(err.response.data.message);
         });
     }
   };

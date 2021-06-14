@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Styled from "styled-components";
 
@@ -17,6 +17,9 @@ const Profile = () => {
   const [banks, setBanks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [widthdraw, setWithdraw] = useState(false);
+  const [copy, setCopy] = useState(false)
+
+  const InputRef = useRef(null)
 
   useEffect(() => {
     setLoading(true);
@@ -45,6 +48,17 @@ const Profile = () => {
   const handleWithdraw = () => {
     return setWithdraw(!widthdraw);
   };
+
+  const handleCopy = () => {
+    /* Select the text field */
+    InputRef.current.select();
+    InputRef.current.setSelectionRange(0, 99999); /* For mobile devices */
+
+    /* Copy the text inside the text field */
+    document.execCommand("copy");
+
+    setCopy(true);
+  }
 
   return (
     <>
@@ -91,9 +105,9 @@ const Profile = () => {
                 <div className="idCard">
                   <div className="title">
                     <div className="textTitle">User Id</div>
-                    <button>Copy</button>
+                    <button onClick={handleCopy}>{copy ? 'Copied' : 'Copy'}</button>
                   </div>
-                  <h2>{user.role_id}</h2>
+                  <input ref={InputRef} value={user.role_id} readOnly={true} />
                   <p>Personal</p>
                 </div>
 
@@ -278,11 +292,14 @@ const RightContent = Styled.div`
             }
 
         }
-        h2 {
+        input {
             font-size: 1.8rem;
             font-weight: bold;
             color: #04172A;
             margin-top: 24px;
+            outline: none;
+            border: none;
+            background: none;
         }
 
         p {
