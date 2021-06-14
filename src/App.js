@@ -13,6 +13,7 @@ import Profile from "./Pages/Profile";
 import EditProfile from "./Pages/Profile/EditProfile";
 import AddCompliant from "./Pages/AddCompliant";
 import ForgetPassword from "./Pages/ForgetPassword";
+import ResetPassword from './Pages/ForgetPassword/Reset';
 import Register from "./Pages/Registration";
 
 function App() {
@@ -25,6 +26,9 @@ function App() {
         </Route>
         <Route exact path="/register">
           <Register />
+        </Route>
+        <Route exact path="/reset_password/:email/:token">
+          <ResetPassword />
         </Route>
         <Route exact path="/forget_password">
           <ForgetPassword />

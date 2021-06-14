@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { Snackbar } from "@material-ui/core";
 
 import AuthLayout from "../../../Layouts/AuthLayout";
@@ -9,12 +9,15 @@ import { InputSection, LoginBgStyle, LoginRow } from "../Login";
 const ForgetPassword = (props) => {
   let history = useHistory();
 
+  let {email, token} = useParams()
+
   // States
   const [errorMessage, setErrorMessage] = useState("");
   const [confirmsValue, setConfirmsValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [showSnackBar, setShowSnackBar] = useState(false);
+  const [errors, setError] = useState([])
 
   // handle err
   const handleClick = (mes) => {
@@ -32,10 +35,12 @@ const ForgetPassword = (props) => {
     if (confirmsValue && passwordValue) {
       setSubmitted(true);
       const data = {
-        email: confirmsValue,
+        email: email,
+        token: token,
+        password_confirmation: confirmsValue,
         password: passwordValue,
       };
-      return Axios.post("/login", data)
+      return Axios.post("/password/reset", data)
         .then((res) => {
           const token = res.data.token;
 
@@ -48,7 +53,8 @@ const ForgetPassword = (props) => {
         .catch((err) => {
           console.log(err.response.data.message);
           setSubmitted(false);
-          handleClick(err.response.data.message);
+          // handleClick(err.response.data.message);
+          setError(err.response.data.errors)
         });
     } else {
       handleClick("All fields are required");
@@ -80,6 +86,7 @@ const ForgetPassword = (props) => {
                 onChange={(e) => setPasswordValue(e.target.value)}
                 placeholder="New Password"
               />
+              {errors.password && <p className="error">{errors.password}</p>}
             </div>
             <div className="inputGroup" style={{ marginTop: "1rem" }}>
               <label htmlFor="">Confirm Password</label>
@@ -90,6 +97,7 @@ const ForgetPassword = (props) => {
                 onChange={(e) => setConfirmsValue(e.target.value)}
                 placeholder="Confirm Password"
               />
+              {errors.password_confirmation && <p className="error">{errors.password_confirmation}</p>}
             </div>
             <button type="submit" style={{ marginTop: "2rem" }}>
               {submitted ? (
