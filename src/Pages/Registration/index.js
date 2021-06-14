@@ -146,7 +146,7 @@ const Register = () => {
         .then((res) => {
           const token = res.data.token;
           // Save Token
-          localStorage.setItem("cheToken", token);
+          localStorage.setItem("makToken", token);
           localStorage.removeItem("regData");
 
           // redirects the user to the dashboard

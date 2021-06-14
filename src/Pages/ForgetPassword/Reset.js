@@ -39,7 +39,7 @@ const ForgetPassword = (props) => {
         .then((res) => {
           const token = res.data.token;
 
-          localStorage.setItem("cheToken", token);
+          localStorage.setItem("makToken", token);
           setSubmitted(false);
 
           // redirects the user to the dashboard

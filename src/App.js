@@ -35,7 +35,7 @@ function App() {
         <Route exact path="/dashboard/subscribe">
           <Subscriber />
         </Route>
-        <Route exact path="/dashboard/comliant">
+        <Route exact path="/dashboard/complaint">
           <AddCompliant />
         </Route>
         <Route exact path="/profile">

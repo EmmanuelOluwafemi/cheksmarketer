@@ -29,7 +29,7 @@ const InitialSlide = ({ emailBtn }) => {
       .then((res) => {
         const token = res.data.token;
 
-        localStorage.setItem("cheToken", token);
+        localStorage.setItem("makToken", token);
 
         // redirects the user to the dashboard
         history.replace("/user");

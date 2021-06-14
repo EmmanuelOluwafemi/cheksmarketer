@@ -22,10 +22,10 @@ const Login = () => {
   const [showSnackBar, setShowSnackBar] = useState(false);
 
   useEffect(() => {
-    if(localStorage.getItem("adminToken")) {
-        history.push('/dashboard');
+    if (localStorage.getItem("makToken")) {
+      history.push("/dashboard");
     }
-}, [history])
+  }, [history]);
 
   // handle err
   const handleClick = (mes) => {
@@ -44,6 +44,7 @@ const Login = () => {
       const data = {
         email: emailValue,
         password: passwordValue,
+        role: "marketer",
       };
       return Axios.post("/login", data)
         .then((res) => {
@@ -101,10 +102,12 @@ const Login = () => {
                 placeholder="Enter Your Password"
                 value={passwordValue}
                 onChange={(e) => setPasswordValue(e.target.value)}
-                />
+              />
             </div>
             <div className="linkContainer">
-              <Link to="/forget_password" className="linked">Forgot Password?</Link>
+              <Link to="/forget_password" className="linked">
+                Forgot Password?
+              </Link>
             </div>
             <button type="submit">
               {submitted ? (
@@ -117,9 +120,7 @@ const Login = () => {
         </InputSection>
         <LoginBgStyle className="col-md-6 d-none d-md-block bg-secondary">
           <div className="contentNew">
-            <p>
-              
-            </p>
+            <p></p>
             <Link to="/register">
               <button>Sign Up</button>
             </Link>
