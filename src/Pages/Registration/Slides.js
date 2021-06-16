@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { v4 as generateId } from "uuid";
 import { TextField } from "@material-ui/core";
 import MenuItem from "@material-ui/core/MenuItem";
-import axios from "axios";
-import { Link, useHistory } from "react-router-dom";
+// import axios from "axios";
+import { Link } from "react-router-dom";
 import { AiOutlineMail } from "react-icons/ai";
 import GoogleLogin from 'react-google-login';
+
+import LoginModal from '../../Component/LoginModal';
 
 import Axios from "../../lib/Axios";
 
@@ -13,15 +15,18 @@ import NaijaStates from 'naija-state-local-government';
 
 
 const InitialSlide = ({ emailBtn }) => {
-  
-  const history = useHistory();
+
+  const [modal, setModal] = useState(false);
 
   const responseGoogle = (response) => {
-
+    
     const regData = {
       type: "google",
       google_id: response.googleId,
       token_id: response.tokenId,
+      email: response.profileObj.email,
+      name: response.profileObj.name,
+      image: response.profileObj.imageUrl,
       role: 'marketer'
     }
 
@@ -31,14 +36,24 @@ const InitialSlide = ({ emailBtn }) => {
 
         localStorage.setItem("makToken", token);
 
-        // redirects the user to the dashboard
-        history.replace("/user");
+        handleModal();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        handleModal();
+      });
+  }
+
+  const handleModal = () => {
+    setModal(!modal);
   }
 
   return (
     <>
+      {modal && <LoginModal 
+        title = "Thanks for Joining Our platform as a marketer"
+        content = "Your Registration was successful a verification process is going on at the admin end, an email will be sent to you after the approval."
+        func={handleModal} 
+      />}
       <h1>Hello!</h1>
       <p>Please pick a method and get started</p>
       <div className="authMenu">

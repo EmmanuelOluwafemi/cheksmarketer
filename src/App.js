@@ -16,6 +16,8 @@ import ForgetPassword from "./Pages/ForgetPassword";
 import ResetPassword from './Pages/ForgetPassword/Reset';
 import Register from "./Pages/Registration";
 
+import Mising from './Pages/404';
+
 function App() {
   return (
     <Router>
@@ -47,6 +49,9 @@ function App() {
         </Route>
         <Route exact path="/profile/edit">
           <EditProfile />
+        </Route>
+        <Route path="">
+          <Mising />
         </Route>
       </Switch>
     </Router>

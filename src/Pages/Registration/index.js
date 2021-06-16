@@ -4,6 +4,8 @@ import { Link, useHistory } from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
 import Axios from "../../lib/Axios";
 
+import LoginModal from '../../Component/LoginModal';
+
 import {Loader} from "../../Component/loader/Loader";
 import {
   InitialSlide,
@@ -25,6 +27,7 @@ const Register = () => {
   const [btnText, setBtnText] = useState("Continue");
   const [showSnackBar, setShowSnackBar] = useState(false);
   const [message, setMessage] = useState("");
+  const [modal, setModal] = useState(false);
   // const [checkPassword, setCheckPassword] = useState(false);
 
   // State Handlers
@@ -54,6 +57,10 @@ const Register = () => {
   const setFourth = () => {
     setActiveClass("fourth");
   };
+
+  const handleModal = () => {
+    setModal(!modal);
+  }
 
   //  Slides Controller
 
@@ -153,7 +160,12 @@ const Register = () => {
           history.replace("/dashboard");
           setLoading(false);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          // err.response.error
+          if (err.response.data.error === 'User is not a Marketer!') {
+            handleModal();
+          }
+        });
     } else {
       setLoading(false);
       handleClick("Something went wrong! Please try again");
@@ -162,6 +174,11 @@ const Register = () => {
 
   return (
     <>
+      {modal && <LoginModal 
+        title = "Account Still Under Verification"
+        content = "Your Account is still going through the verification process, an email will be sent to your when it as been approved."
+        func={handleModal} 
+      />}
       {loading ? (
         <Loader />
       ) : (
