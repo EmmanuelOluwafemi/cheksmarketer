@@ -20,6 +20,7 @@ const Login = () => {
   const [passwordValue, setPasswordValue] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [showSnackBar, setShowSnackBar] = useState(false);
+  const [error, setError] = useState([])
 
   useEffect(() => {
     if (localStorage.getItem("makToken")) {
@@ -51,16 +52,15 @@ const Login = () => {
           const token = res.data.token;
 
           // Save Token
-          localStorage.setItem("adminToken", token);
+          localStorage.setItem("makToken", token);
           setSubmitted(false);
 
           // redirects the admin to the dashboard
           history.replace("/dashboard");
         })
         .catch((err) => {
-          console.log(err.response.data);
+          setError(err.response.data.errors);
           setSubmitted(false);
-          handleClick(err.response.data.message);
         });
     } else {
       handleClick("All fields are required");
@@ -93,6 +93,7 @@ const Login = () => {
                 onChange={(e) => setEmailValue(e.target.value)}
                 placeholder="Enter Your Email"
               />
+              {error.email && <p className="error">{error.email}</p>}
             </div>
 
             <div className="inputGroup">
@@ -103,6 +104,7 @@ const Login = () => {
                 value={passwordValue}
                 onChange={(e) => setPasswordValue(e.target.value)}
               />
+              {error.password && <p className="error">{error.password}</p>}
             </div>
             <div className="linkContainer">
               <Link to="/forget_password" className="linked">
