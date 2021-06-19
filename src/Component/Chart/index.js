@@ -1,7 +1,7 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
 
-import Styled from "styled-components";
+import styled from "styled-components";
 
 const Chart = ({newData}) => {
 
@@ -59,8 +59,8 @@ const Chart = ({newData}) => {
 
 export default Chart;
 
-const ChartContainer = Styled.div`
-    width: 50vw;
+const ChartContainer = styled.div`
+    width: 60vw;
     cursor: pointer;
 
     @media (max-width: 959px) {
