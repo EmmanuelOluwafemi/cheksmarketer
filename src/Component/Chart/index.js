@@ -4,47 +4,101 @@ import { Line } from "react-chartjs-2";
 import Styled from "styled-components";
 
 const Chart = ({newData}) => {
-
-  let {seller_graph, user_graph } = newData;
   let seller_graph_data = [];
   let seller_graph_time = [];
   let user_graph_data = [];
 
+  function checkMonth(num) {
+    let day = '';
+    switch (num) {
+      case 1:
+        day = "Jan";
+        break;
+      case 2:
+         day = "Feb";
+        break;
+      case 3:
+        day = "Mar";
+        break;
+      case 4:
+        day = "Apr";
+        break;
+      case 5:
+        day = "May";
+        break;
+      case 6:
+        day = "Jun";
+        break;
+      case 7:
+        day = "Jul";
+        break;
+      case 8:
+        day = "Aug";
+        break;
+      case 9:
+        day = "Sep";
+        break;
+      case 10:
+        day = "Oct";
+        break;
+      case 11:
+        day = "Nov";
+        break;
+      case 12:
+        day = "Dec";
+        break;
+      default:
+        day = ""
+    }
+
+    return day;
+  }
+
   // Products Datas
-  seller_graph && seller_graph.map(item => {
+  newData.seller_graph && newData.seller_graph.map(item => {
     let {x, y} = item;
-    seller_graph_data.push(x);
-    seller_graph_time.push(y);
+    seller_graph_data.push(y);
+    seller_graph_time.push(x);
     return x;
   })
 
   // Number Of Visitors
-  user_graph && user_graph.map(item => {
+  newData.users_graph && newData.users_graph.map(item => {
     let {x, y} = item;
-    user_graph_data.push(x);
-
+    user_graph_data.push(y);
+    seller_graph_time.push(x);
     return y;
   })
+
+  let sortedLabel = seller_graph_time.sort((a, b) => a - b)
+
+  let labedArray = [];
+
+  sortedLabel.forEach(item => {
+    labedArray.push(checkMonth(item))
+  })
+
+  let uniqueLabel = [...new Set(labedArray)]
   
   const data = {
-    labels: seller_graph_time,
+    labels: uniqueLabel,
     datasets: [
       {
-        label: "Added Products",
+        label: "Seller Graph",
         data: seller_graph_data,
         fill: false,
         lineTension: 0.5,
-        backgroundColor: "rgba(75,192,192,1)",
-        borderColor: "rgba(88, 252, 125, 1)",
+        backgroundColor: "#3D1157",
+        borderColor: "#3D1157",
         borderWidth: 2,
       },
       {
-        label: "Visited User",
+        label: "User Graph",
         data: user_graph_data,
         fill: false,
         lineTension: 0.5,
-        backgroundColor: "rgba(75,192,192,1)",
-        borderColor: "rgba(252, 125, 88, 1)",
+        backgroundColor: "#88C660",
+        borderColor: "#88C660",
         borderWidth: 2,
       }
     ],

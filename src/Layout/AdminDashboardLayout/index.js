@@ -11,6 +11,8 @@ import { BiLogOut } from "react-icons/bi";
 import { NavLink, useHistory } from "react-router-dom";
 import DashboardHeader from "../../Component/DashboardHeader";
 
+import AxiosAuth from '../../lib/AxiosAuth';
+
 const AdminDashboardLayout = (props) => {
   const [sideBar, setSidebar] = useState(false);
   let history = useHistory();
@@ -23,6 +25,15 @@ const AdminDashboardLayout = (props) => {
   }, [history]);
 
   const handleLogout = () => {
+    AxiosAuth()
+    .post(`logout`)
+    .then((res) => {
+      console.log('res',res);
+
+    })
+    .catch((err) => {
+      console.log(err);
+    });
     console.log("click");
     if (localStorage.getItem("makToken")) {
       localStorage.removeItem("makToken");

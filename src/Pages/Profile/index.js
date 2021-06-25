@@ -104,7 +104,7 @@ const Profile = () => {
               <RightContent className="col-md-7">
                 <div className="idCard">
                   <div className="title">
-                    <div className="textTitle">User Id</div>
+                    <div className="textTitle">User ID</div>
                     <button onClick={handleCopy}>{copy ? 'Copied' : 'Copy'}</button>
                   </div>
                   <input ref={InputRef} value={user.role_id} readOnly={true} />

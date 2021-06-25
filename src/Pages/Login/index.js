@@ -61,6 +61,9 @@ const Login = () => {
         .catch((err) => {
           setError(err.response.data.errors);
           setSubmitted(false);
+          if (error.role) {
+            handleClick(error.role);
+          }
         });
     } else {
       handleClick("All fields are required");

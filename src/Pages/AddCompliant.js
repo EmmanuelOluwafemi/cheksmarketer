@@ -105,11 +105,10 @@ const AddCompliant = () => {
                                 <label for="title">Priority</label>
                                 <select name="priority" value={priority} onChange={(e) => setPriority(e.target.value)}>
                                     <option>Select Priority Rate</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    <option value="1">Not Urgent Not Important</option>
+                                    <option value="2">Not Urgent Very Important</option>
+                                    <option value="3">Very Urgent Not Important</option>
+                                    <option value="4">Very Urgent Very Important</option>
                                 </select>
                             </InputGroup>
                         </div>

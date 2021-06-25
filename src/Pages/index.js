@@ -34,11 +34,11 @@ const AdminDashboard = () => {
 
         // Get Analytics Graph
         AxiosAuth()
-        .get("/marketer/analytics-graph")
+        .get("/marketer/analytics-graph?filter=month")
         .then((res) => {
-            console.log(res.data.data)
             setGraph(res.data.data)
             setLoading(false)
+            console.log(graph)
         })
         .catch((err) => {
             console.log(err);

@@ -46,11 +46,11 @@ const useStyles = makeStyles(theme => ({
         position: 'absolute',
         right: '10px',
         height: '50px',
-        background: 'green',
+        background: '#0175B1',
         color: 'white',
 
         '&:hover': {
-            background: 'teal',
+            background: '#0175B1',
             color: 'white',
         },
 
