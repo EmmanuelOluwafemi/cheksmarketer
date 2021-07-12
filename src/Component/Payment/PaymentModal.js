@@ -18,7 +18,7 @@ const PaymentModal = ({ handleWithdraw, banks }) => {
     setCheckError(false);
   };
   const [bankCode, setBankCode] = useState("801");
-  const payStackToken = process.env.REACT_APP_PAYSTACK_SK_KEY;
+  const payStackToken = process.env.REACT_APP_PAYSTACK_SECRET_KEY;
 
   useEffect(() => {
     banks.length &&

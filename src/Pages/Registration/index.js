@@ -235,6 +235,7 @@ const Register = () => {
                 )}
               </form>
             </InputSection>
+            <p className="register">Already Have An Account? <Link to="/login">Login</Link></p>
           </LoginRow>
         </AuthLayout>
       )}
@@ -248,6 +249,28 @@ const LoginRow = Styled.div`
     width: 100%;
     min-height: 473px;
     margin: 0;
+
+    @media (max-width: 768px) {
+      min-height: 540px;
+    }
+
+    .register {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #000;
+      margin-top: 2rem;
+      text-align: center;
+      width: 100%;
+
+      @media (min-width: 768px) {
+        display: none;
+      }
+
+      a {
+        color: #0175b1;
+        font-weight: 700;
+      }
+    }
 `;
 
 const LoginBgStyle = Styled.div`

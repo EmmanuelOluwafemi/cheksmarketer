@@ -122,6 +122,8 @@ const Login = () => {
               )}
             </button>
           </form>
+
+          <p className="register">Not Having An Account? <Link to="/register">Register</Link></p>
         </InputSection>
         <LoginBgStyle className="col-md-6 d-none d-md-block bg-secondary">
           <div className="contentNew">
@@ -188,9 +190,26 @@ export const InputSection = Styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 
     @media (max-width: 768px) {
         border-right: 10px solid #0175B1;
+    }
+
+    .register {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #000;
+      margin-top: 2rem;
+
+      @media (min-width: 768px) {
+        display: none;
+      }
+
+      a {
+        color: #0175b1;
+        font-weight: 700;
+      }
     }
 
     form {
@@ -223,7 +242,6 @@ export const InputSection = Styled.div`
               font-size: .8rem;
               color: red;
             }
-
         }
 
         .linkContainer {

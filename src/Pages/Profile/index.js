@@ -11,6 +11,7 @@ import AdminDashboardLayout from "../../Layout/AdminDashboardLayout";
 import { Loader } from "../../Component/loader/Loader";
 import PaymentModal from "../../Component/Payment/PaymentModal";
 import axios from "axios";
+import ProfileModal from "../../Component/DashboardModal/ProfileModal";
 
 const Profile = () => {
   const [user, setUser] = useState([]);
@@ -67,7 +68,13 @@ const Profile = () => {
       ) : (
         <AdminDashboardLayout>
           {widthdraw && (
-            <PaymentModal handleWithdraw={handleWithdraw} banks={banks} />
+            <>
+              {
+                  user.can_withdraw ?
+                  <PaymentModal handleWithdraw={handleWithdraw} banks={banks} /> :
+                    <ProfileModal handleWithdraw={handleWithdraw} />
+              }
+            </>
           )}
           <ProfileContainer>
             <h1>Profile</h1>
